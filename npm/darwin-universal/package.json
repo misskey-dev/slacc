@@ -1,0 +1,15 @@
+{
+  "name": "slacc-darwin-universal",
+  "version": "0.0.0",
+  "os": [
+    "darwin"
+  ],
+  "main": "slacc.darwin-universal.node",
+  "files": [
+    "slacc.darwin-universal.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}

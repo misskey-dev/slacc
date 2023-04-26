@@ -115,7 +115,9 @@ jobs:
         shell: bash
       - name: Setup node x86
         if: matrix.settings.target == 'i686-pc-windows-msvc'
-        run: pnpm config set supportedArchitectures.cpu "ia32"
+        run: |
+          corepack enable
+          pnpm config set supportedArchitectures.cpu "ia32"
         shell: bash
       - name: Install dependencies
         run: |
@@ -170,7 +172,9 @@ jobs:
           check-latest: true
           cache: pnpm
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          corepack enable
+          pnpm install
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -202,7 +206,9 @@ jobs:
           check-latest: true
           cache: pnpm
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          corepack enable
+          pnpm install
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -237,6 +243,7 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: |
+          corepack enable
           pnpm config set supportedArchitectures.cpu "arm64"
           pnpm config set supportedArchitectures.libc "glibc"
           pnpm install
@@ -271,6 +278,7 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: |
+          corepack enable
           pnpm config set supportedArchitectures.cpu "arm64"
           pnpm config set supportedArchitectures.libc "musl"
           pnpm install
@@ -311,6 +319,7 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: |
+          corepack enable
           pnpm config set supportedArchitectures.cpu "arm"
           pnpm install
       - name: Set up QEMU
@@ -341,7 +350,9 @@ jobs:
           check-latest: true
           cache: pnpm
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          corepack enable
+          pnpm install
       - name: Download macOS x64 artifact
         uses: actions/download-artifact@v3
         with:
@@ -379,7 +390,9 @@ jobs:
           check-latest: true
           cache: pnpm
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          corepack enable
+          pnpm install
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:

@@ -120,7 +120,7 @@ jobs:
         run: pnpm config set supportedArchitectures.cpu "ia32"
         shell: bash
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-optional
       - name: Setup node x86
         uses: actions/setup-node@v3
         if: matrix.settings.target == 'i686-pc-windows-msvc'
@@ -174,7 +174,7 @@ jobs:
         with:
           version: 8.3.1
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-optional
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -208,7 +208,7 @@ jobs:
         with:
           version: 8.3.1
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-optional
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -248,7 +248,7 @@ jobs:
         run: |
           pnpm config set supportedArchitectures.cpu "arm64"
           pnpm config set supportedArchitectures.libc "glibc"
-          pnpm install
+          pnpm install --no-optional
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
@@ -285,7 +285,7 @@ jobs:
         run: |
           pnpm config set supportedArchitectures.cpu "arm64"
           pnpm config set supportedArchitectures.libc "musl"
-          pnpm install
+          pnpm install --no-optional
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
@@ -327,7 +327,7 @@ jobs:
       - name: Install dependencies
         run: |
           pnpm config set supportedArchitectures.cpu "arm"
-          pnpm install
+          pnpm install --no-optional
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
@@ -358,7 +358,7 @@ jobs:
         with:
           version: 8.3.1
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-optional
       - name: Download macOS x64 artifact
         uses: actions/download-artifact@v3
         with:
@@ -398,7 +398,7 @@ jobs:
         with:
           version: 8.3.1
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-optional
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:

@@ -4,7 +4,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
-    "name": "@misskey-dev/slacc",
+    "name": "slacc",
     "triples": {
       "additional": [
         "aarch64-apple-darwin",

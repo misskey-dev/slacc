@@ -218,7 +218,7 @@ jobs:
         run: ls -R .
         shell: bash
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/build -w /build node:${{ matrix.node }}-slim --entrypoint "/usr/bin/env bash" "apk add --no-cache bash curl; curl -LSfs https://get.pnpm.io/install.sh | SHELL="$(type bash)" bash; export PNPM_HOME="$HOME/.local/share/pnpm"; export PATH="$PNPM_HOME:$PATH"; pnpm test"
+        run: docker run --rm -v $(pwd):/build -w /build --entrypoint "/usr/bin/env bash" node:${{ matrix.node }}-slim "sudo apt-get update; sudo apt-get install curl; curl -LSfs https://get.pnpm.io/install.sh | SHELL="$(type bash)" bash; export PNPM_HOME="$HOME/.local/share/pnpm"; export PATH="$PNPM_HOME:$PATH"; pnpm test"
   test-linux-aarch64-gnu-binding:
     name: Test bindings on aarch64-unknown-linux-gnu - node@${{ matrix.node }}
     needs:
@@ -259,7 +259,8 @@ jobs:
           options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
           run: |
             set -e
-            apk add --no-cache bash curl
+            sudo apt-get update
+            sudo apt-get install curl
             curl -LSfs https://get.pnpm.io/install.sh | SHELL="$(type bash)" bash
             export PNPM_HOME="$HOME/.local/share/pnpm"
             export PATH="$PNPM_HOME:$PATH"
@@ -300,7 +301,8 @@ jobs:
           options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
           run: |
             set -e
-            apk add --no-cache bash curl
+            sudo apt-get update
+            sudo apt-get install curl
             curl -LSfs https://get.pnpm.io/install.sh | SHELL="$(type bash)" bash
             export PNPM_HOME="$HOME/.local/share/pnpm"
             export PATH="$PNPM_HOME:$PATH"

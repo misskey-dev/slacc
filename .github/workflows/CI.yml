@@ -255,14 +255,15 @@ jobs:
         run: |
           if git log -1 --pretty=%B | grep "^build: bump [0-9]\+\.[0-9]\+\.[0-9]\+$";
           then
-            echo "//registry.npmjs.org/:_authToken=$GITHUB_TOKEN" >> ~/.npmrc
+            echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN" >> ~/.npmrc
             npm publish --access public
           elif git log -1 --pretty=%B | grep "^build: bump [0-9]\+\.[0-9]\+\.[0-9]\+";
           then
-            echo "//registry.npmjs.org/:_authToken=$GITHUB_TOKEN" >> ~/.npmrc
+            echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN" >> ~/.npmrc
             npm publish --tag next --access public
           else
             echo "Not a release, skipping publish"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}

@@ -1,5 +1,5 @@
 {
-  "name": "slacc-darwin-universal",
+  "name": "@misskey-dev/slacc-darwin-universal",
   "version": "0.0.1",
   "os": [
     "darwin"

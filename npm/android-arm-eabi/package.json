@@ -1,5 +1,5 @@
 {
-  "name": "slacc-android-arm-eabi",
+  "name": "@misskey-dev/slacc-android-arm-eabi",
   "version": "0.0.1",
   "os": [
     "android"

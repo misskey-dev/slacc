@@ -1,5 +1,5 @@
 {
-  "name": "slacc-linux-arm-gnueabihf",
+  "name": "@misskey-dev/slacc-linux-arm-gnueabihf",
   "version": "0.0.1",
   "os": [
     "linux"

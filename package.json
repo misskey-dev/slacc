@@ -1,6 +1,6 @@
 {
   "name": "slacc",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
@@ -42,16 +42,16 @@
   },
   "packageManager": "pnpm@8.3.1",
   "optionalDependencies": {
-    "slacc-win32-x64-msvc": "0.0.0",
-    "slacc-darwin-x64": "0.0.0",
-    "slacc-linux-x64-gnu": "0.0.0",
-    "slacc-darwin-arm64": "0.0.0",
-    "slacc-android-arm64": "0.0.0",
-    "slacc-linux-arm64-gnu": "0.0.0",
-    "slacc-linux-arm64-musl": "0.0.0",
-    "slacc-win32-arm64-msvc": "0.0.0",
-    "slacc-linux-arm-gnueabihf": "0.0.0",
-    "slacc-android-arm-eabi": "0.0.0",
-    "slacc-darwin-universal": "0.0.0"
+    "slacc-win32-x64-msvc": "0.0.1",
+    "slacc-darwin-x64": "0.0.1",
+    "slacc-linux-x64-gnu": "0.0.1",
+    "slacc-darwin-arm64": "0.0.1",
+    "slacc-android-arm64": "0.0.1",
+    "slacc-linux-arm64-gnu": "0.0.1",
+    "slacc-linux-arm64-musl": "0.0.1",
+    "slacc-win32-arm64-msvc": "0.0.1",
+    "slacc-linux-arm-gnueabihf": "0.0.1",
+    "slacc-android-arm-eabi": "0.0.1",
+    "slacc-darwin-universal": "0.0.1"
   }
 }

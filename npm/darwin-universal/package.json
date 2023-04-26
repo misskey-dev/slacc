@@ -1,6 +1,6 @@
 {
-  "name": "@misskey-dev/slacc-darwin-universal",
-  "version": "0.0.4",
+  "name": "slacc-darwin-universal",
+  "version": "0.0.5",
   "os": [
     "darwin"
   ],
@@ -11,8 +11,5 @@
   "license": "MIT",
   "engines": {
     "node": ">= 10"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   }
 }

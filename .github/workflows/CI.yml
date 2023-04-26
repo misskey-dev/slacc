@@ -88,7 +88,9 @@ jobs:
         with:
           node-version: 18
           check-latest: true
-          cache: pnpm
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.3.1
       - name: Install
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker }}
@@ -115,22 +117,20 @@ jobs:
         shell: bash
       - name: Setup node x86
         if: matrix.settings.target == 'i686-pc-windows-msvc'
-        run: |
-          corepack enable
-          pnpm config set supportedArchitectures.cpu "ia32"
+        run: pnpm config set supportedArchitectures.cpu "ia32"
         shell: bash
       - name: Install dependencies
-        run: |
-          corepack enable
-          pnpm install
+        run: pnpm install
       - name: Setup node x86
         uses: actions/setup-node@v3
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
           node-version: 18
           check-latest: true
-          cache: pnpm
           architecture: x86
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.3.1
       - name: Build in docker
         uses: addnab/docker-run-action@v3
         if: ${{ matrix.settings.docker }}
@@ -170,11 +170,11 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
-          cache: pnpm
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.3.1
       - name: Install dependencies
-        run: |
-          corepack enable
-          pnpm install
+        run: pnpm install
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -204,11 +204,11 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
-          cache: pnpm
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.3.1
       - name: Install dependencies
-        run: |
-          corepack enable
-          pnpm install
+        run: pnpm install
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -241,9 +241,11 @@ jobs:
       - name: List packages
         run: ls -R .
         shell: bash
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.3.1
       - name: Install dependencies
         run: |
-          corepack enable
           pnpm config set supportedArchitectures.cpu "arm64"
           pnpm config set supportedArchitectures.libc "glibc"
           pnpm install
@@ -276,9 +278,11 @@ jobs:
       - name: List packages
         run: ls -R .
         shell: bash
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.3.1
       - name: Install dependencies
         run: |
-          corepack enable
           pnpm config set supportedArchitectures.cpu "arm64"
           pnpm config set supportedArchitectures.libc "musl"
           pnpm install
@@ -317,9 +321,11 @@ jobs:
       - name: List packages
         run: ls -R .
         shell: bash
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.3.1
       - name: Install dependencies
         run: |
-          corepack enable
           pnpm config set supportedArchitectures.cpu "arm"
           pnpm install
       - name: Set up QEMU
@@ -348,11 +354,11 @@ jobs:
         with:
           node-version: 18
           check-latest: true
-          cache: pnpm
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.3.1
       - name: Install dependencies
-        run: |
-          corepack enable
-          pnpm install
+        run: pnpm install
       - name: Download macOS x64 artifact
         uses: actions/download-artifact@v3
         with:
@@ -388,11 +394,11 @@ jobs:
         with:
           node-version: 18
           check-latest: true
-          cache: pnpm
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.3.1
       - name: Install dependencies
-        run: |
-          corepack enable
-          pnpm install
+        run: pnpm install
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:

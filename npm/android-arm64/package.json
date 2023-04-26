@@ -1,6 +1,6 @@
 {
   "name": "@misskey-dev/slacc-android-arm64",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "os": [
     "android"
   ],
@@ -14,5 +14,8 @@
   "license": "MIT",
   "engines": {
     "node": ">= 10"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }

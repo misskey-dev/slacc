@@ -35,6 +35,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: |-
               set -e &&
+              curl -LSfs https://get.pnpm.io/install.sh | sh - &&
               pnpm build --target x86_64-unknown-linux-gnu &&
               strip *.node
           - host: macos-latest
@@ -47,6 +48,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
             build: |-
               set -e &&
+              curl -LSfs https://get.pnpm.io/install.sh | sh - &&
               pnpm build --target aarch64-unknown-linux-gnu &&
               aarch64-unknown-linux-gnu-strip *.node
           - host: ubuntu-latest
@@ -72,6 +74,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: |-
               set -e &&
+              curl -LSfs https://get.pnpm.io/install.sh | sh - &&
               rustup target add aarch64-unknown-linux-musl &&
               pnpm build --target aarch64-unknown-linux-musl &&
               /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip *.node
@@ -214,7 +217,7 @@ jobs:
         run: ls -R .
         shell: bash
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/build -w /build node:${{ matrix.node }}-slim pnpm test
+        run: docker run --rm -v $(pwd):/build -w /build node:${{ matrix.node }}-slim "curl -LSfs https://get.pnpm.io/install.sh | sh && pnpm test"
   test-linux-aarch64-gnu-binding:
     name: Test bindings on aarch64-unknown-linux-gnu - node@${{ matrix.node }}
     needs:
@@ -255,6 +258,7 @@ jobs:
           options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
           run: |
             set -e
+            curl -LSfs https://get.pnpm.io/install.sh | sh
             pnpm test
             ls -la
   test-linux-aarch64-musl-binding:
@@ -292,6 +296,7 @@ jobs:
           options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
           run: |
             set -e
+            curl -LSfs https://get.pnpm.io/install.sh | sh
             pnpm test
   test-linux-arm-gnueabihf-binding:
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
@@ -332,6 +337,7 @@ jobs:
           options: "--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build"
           run: |
             set -e
+            curl -LSfs https://get.pnpm.io/install.sh | sh
             pnpm test
             ls -la
   universal-macOS:

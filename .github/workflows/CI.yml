@@ -225,6 +225,9 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
     needs:
       - test-macOS-windows-binding
       - universal-macOS

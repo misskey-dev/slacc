@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import RE2 from "re2";
 import { bench, describe, expect } from "vitest";
-import { Slacc } from "./index.js";
+import { AhoCorasick } from "./index.js";
 
 // prettier-ignore
 const words100 = await Promise.all(["a", "about", "all", "also", "and", "as", "at", "be", "because", "but", "by", "can", "come", "could", "day", "do", "even", "find", "first", "for", "from", "get", "give", "go", "have", "he", "her", "here", "him", "his", "how", "I", "if", "in", "into", "it", "its", "just", "know", "like", "look", "make", "man", "many", "me", "more", "my", "new", "no", "not", "now", "of", "on", "one", "only", "or", "other", "our", "out", "people", "say", "see", "she", "so", "some", "take", "tell", "than", "that", "the", "their", "them", "then", "there", "these", "they", "thing", "think", "this", "those", "time", "to", "two", "up", "use", "very", "want", "way", "we", "well", "what", "when", "which", "who", "will", "with", "would", "year", "you", "your"].map((word) => Promise.all([word, crypto.subtle.digest("SHA-256", new TextEncoder().encode(word)).then((hash) => new TextDecoder("UTF-16").decode(new Uint16Array(hash)))]))).then((words) => words.sort((a, b) => a[1] - b[1]).map(([word]) => word));
@@ -13,11 +13,11 @@ const domains100000 = ["00573.lap.detroitdragway.com", "0243hfdnsafnz03y41b325re
 describe("within 100 characters", () => {
   describe("matching", () => {
     describe("in 100 words", () => {
-      const slacc = Slacc.withPatterns(words100);
+      const slacc = AhoCorasick.withPatterns(words100);
       const regexp = new RegExp(`(?:${words100.join("|")})`);
       const re2 = new RE2(`(?:${words100.join("|")})`);
       const includes = (input) => words100.some((word) => input.includes(word));
-      bench("Slacc", () => {
+      bench("AhoCorasick", () => {
         expect(
           slacc.isMatch("The quick brown fox jumps over the lazy dog")
         ).toBe(true);
@@ -39,12 +39,12 @@ describe("within 100 characters", () => {
       });
     });
     describe("in 10,000 words", () => {
-      const slacc = Slacc.withPatterns(words10000);
+      const slacc = AhoCorasick.withPatterns(words10000);
       const regexp = new RegExp(`(?:${words10000.join("|")})`);
       const re2 = new RE2(`(?:${words10000.join("|")})`);
       const includes = (input) =>
         words10000.some((word) => input.includes(word));
-      bench("Slacc", () => {
+      bench("AhoCorasick", () => {
         expect(
           slacc.isMatch("The quick brown fox jumps over the lazy dog")
         ).toBe(true);
@@ -66,7 +66,7 @@ describe("within 100 characters", () => {
       });
     });
     describe("in 100,000 domains", () => {
-      const slacc = Slacc.withPatterns(domains100000);
+      const slacc = AhoCorasick.withPatterns(domains100000);
       const regexp = new RegExp(
         `(?:${domains100000.join("|").replaceAll(".", "\\.")})`
       );
@@ -75,7 +75,7 @@ describe("within 100 characters", () => {
        */
       const includes = (input) =>
         domains100000.some((word) => input.includes(word));
-      bench("Slacc", () => {
+      bench("AhoCorasick", () => {
         expect(
           slacc.isMatch(
             "This is not a Google owned domain: https://www1-google-analytics.com"
@@ -101,11 +101,11 @@ describe("within 100 characters", () => {
   });
   describe("not matching", () => {
     describe("in 100 words", () => {
-      const slacc = Slacc.withPatterns(words100);
+      const slacc = AhoCorasick.withPatterns(words100);
       const regexp = new RegExp(`(?:${words100.join("|")})`);
       const re2 = new RE2(`(?:${words100.join("|")})`);
       const includes = (input) => words100.some((word) => input.includes(word));
-      bench("Slacc", () => {
+      bench("AhoCorasick", () => {
         expect(
           !slacc.isMatch(
             "LOREM iPUSM DOLOR SiT AMET, CONSECTETUR ADiPiSCiNG ELiT"
@@ -131,12 +131,12 @@ describe("within 100 characters", () => {
       });
     });
     describe("in 10,000 words", () => {
-      const slacc = Slacc.withPatterns(words10000);
+      const slacc = AhoCorasick.withPatterns(words10000);
       const regexp = new RegExp(`(?:${words10000.join("|")})`);
       const re2 = new RE2(`(?:${words10000.join("|")})`);
       const includes = (input) =>
         words10000.some((word) => input.includes(word));
-      bench("Slacc", () => {
+      bench("AhoCorasick", () => {
         expect(
           !slacc.isMatch(
             "LOREM IPUSM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT"
@@ -162,7 +162,7 @@ describe("within 100 characters", () => {
       });
     });
     describe("in 100,000 domains", () => {
-      const slacc = Slacc.withPatterns(domains100000);
+      const slacc = AhoCorasick.withPatterns(domains100000);
       const regexp = new RegExp(
         `(?:${domains100000.join("|").replaceAll(".", "\\.")})`
       );
@@ -171,7 +171,7 @@ describe("within 100 characters", () => {
        */
       const includes = (input) =>
         domains100000.some((word) => input.includes(word));
-      bench("Slacc", () => {
+      bench("AhoCorasick", () => {
         expect(
           !slacc.isMatch(
             "This is a Google owned domain: https://www.google-analytics.com"
@@ -199,11 +199,11 @@ describe("within 100 characters", () => {
 describe("within 1,000 characters", () => {
   describe("matching", () => {
     describe("in 100 words", () => {
-      const slacc = Slacc.withPatterns(words100);
+      const slacc = AhoCorasick.withPatterns(words100);
       const regexp = new RegExp(`(?:${words100.join("|")})`);
       const re2 = new RE2(`(?:${words100.join("|")})`);
       const includes = (input) => words100.some((word) => input.includes(word));
-      bench("Slacc", () => {
+      bench("AhoCorasick", () => {
         expect(
           slacc.isMatch(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
@@ -233,12 +233,12 @@ describe("within 1,000 characters", () => {
       });
     });
     describe("in 10,000 words", () => {
-      const slacc = Slacc.withPatterns(words10000);
+      const slacc = AhoCorasick.withPatterns(words10000);
       const regexp = new RegExp(`(?:${words10000.join("|")})`);
       const re2 = new RE2(`(?:${words10000.join("|")})`);
       const includes = (input) =>
         words10000.some((word) => input.includes(word));
-      bench("Slacc", () => {
+      bench("AhoCorasick", () => {
         expect(
           slacc.isMatch(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
@@ -268,14 +268,14 @@ describe("within 1,000 characters", () => {
       });
     });
     describe("in 100,000 domains", () => {
-      const slacc = Slacc.withPatterns(domains100000);
+      const slacc = AhoCorasick.withPatterns(domains100000);
       const regexp = new RegExp(`(?:${domains100000.join("|")})`);
       /* NOTE: SyntaxError: pattern too large - compile failed
       const re2 = new RE2(`(?:${domains100000.join("|")})`);
        */
       const includes = (input) =>
         domains100000.some((word) => input.includes(word));
-      bench("Slacc", () => {
+      bench("AhoCorasick", () => {
         expect(
           slacc.isMatch(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum: https://www1-google-analytics.com"
@@ -301,11 +301,11 @@ describe("within 1,000 characters", () => {
   });
   describe("not matching", () => {
     describe("in 100 words", () => {
-      const slacc = Slacc.withPatterns(words100);
+      const slacc = AhoCorasick.withPatterns(words100);
       const regexp = new RegExp(`(?:${words100.join("|")})`);
       const re2 = new RE2(`(?:${words100.join("|")})`);
       const includes = (input) => words100.some((word) => input.includes(word));
-      bench("Slacc", () => {
+      bench("AhoCorasick", () => {
         expect(
           !slacc.isMatch(
             "LOREM iPSUM DOLOR SiT AMET, CONSECTETUR ADiPiSCiNG ELiT, SED DO EiUSMOD TEMPOR iNCiDiDUNT UT LABORE ET DOLORE MAGNA ALiQUA. UT ENiM AD MiNiM VENiAM, QUiS NOSTRUD EXERCiTATiON ULLAMCO LABORiS NiSi UT ALiQUiP EX EA COMMODO CONSEQUAT. DUiS AUTE iRURE DOLOR iN REPREHENDERiT iN VOLUPTATE VELiT ESSE CiLLUM DOLORE EU FUGiAT NULLA PARiATUR. EXCEPTEUR SiNT OCCAECAT CUPiDATAT NON PROiDENT, SUNT iN CULPA QUi OFFiCiA DESERUNT MOLLiT ANiM iD EST LABORUM."
@@ -335,12 +335,12 @@ describe("within 1,000 characters", () => {
       });
     });
     describe("in 10,000 words", () => {
-      const slacc = Slacc.withPatterns(words10000);
+      const slacc = AhoCorasick.withPatterns(words10000);
       const regexp = new RegExp(`(?:${words10000.join("|")})`);
       const re2 = new RE2(`(?:${words10000.join("|")})`);
       const includes = (input) =>
         words10000.some((word) => input.includes(word));
-      bench("Slacc", () => {
+      bench("AhoCorasick", () => {
         expect(
           !slacc.isMatch(
             "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT, SED DO EIUSMOD TEMPOR INCIDIDUNT UT LABORE ET DOLORE MAGNA ALIQUA. UT ENIM AD MINIM VENIAM, QUIS NOSTRUD EXERCITATION ULLAMCO LABORIS NISI UT ALIQUIP EX EA COMMODO CONSEQUAT. DUIS AUTE IRURE DOLOR IN REPREHENDERIT IN VOLUPTATE VELIT ESSE CILLUM DOLORE EU FUGIAT NULLA PARIATUR. EXCEPTEUR SINT OCCAECAT CUPIDATAT NON PROIDENT, SUNT IN CULPA QUI OFFICIA DESERUNT MOLLIT ANIM ID EST LABORUM."
@@ -370,14 +370,14 @@ describe("within 1,000 characters", () => {
       });
     });
     describe("in 100,000 domains", () => {
-      const slacc = Slacc.withPatterns(domains100000);
+      const slacc = AhoCorasick.withPatterns(domains100000);
       const regexp = new RegExp(`(?:${domains100000.join("|")})`);
       /* NOTE: SyntaxError: pattern too large - compile failed
       const re2 = new RE2(`(?:${domains100000.join("|")})`);
       */
       const includes = (input) =>
         domains100000.some((word) => input.includes(word));
-      bench("Slacc", () => {
+      bench("AhoCorasick", () => {
         expect(
           !slacc.isMatch(
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum: https://www.google-analytics.com"

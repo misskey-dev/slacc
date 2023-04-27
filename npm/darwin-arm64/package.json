@@ -1,6 +1,6 @@
 {
   "name": "slacc-darwin-arm64",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "os": [
     "darwin"
   ],

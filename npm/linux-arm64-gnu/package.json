@@ -1,6 +1,6 @@
 {
-  "name": "slacc-linux-arm64-gnu",
-  "version": "0.0.5",
+  "name": "@misskey-dev/slacc-linux-arm64-gnu",
+  "version": "0.0.4",
   "os": [
     "linux"
   ],
@@ -17,5 +17,8 @@
   },
   "libc": [
     "glibc"
-  ]
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
 }

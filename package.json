@@ -1,6 +1,6 @@
 {
-  "name": "slacc",
-  "version": "0.0.5",
+  "name": "@misskey-dev/slacc",
+  "version": "0.0.4",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
@@ -42,16 +42,19 @@
   },
   "packageManager": "pnpm@8.3.1",
   "optionalDependencies": {
-    "slacc-win32-x64-msvc": "0.0.5",
-    "slacc-darwin-x64": "0.0.5",
-    "slacc-linux-x64-gnu": "0.0.5",
-    "slacc-darwin-arm64": "0.0.5",
-    "slacc-android-arm64": "0.0.5",
-    "slacc-linux-arm64-gnu": "0.0.5",
-    "slacc-linux-arm64-musl": "0.0.5",
-    "slacc-win32-arm64-msvc": "0.0.5",
-    "slacc-linux-arm-gnueabihf": "0.0.5",
-    "slacc-android-arm-eabi": "0.0.5",
-    "slacc-darwin-universal": "0.0.5"
+    "@misskey-dev/slacc-win32-x64-msvc": "0.0.4",
+    "@misskey-dev/slacc-darwin-x64": "0.0.4",
+    "@misskey-dev/slacc-linux-x64-gnu": "0.0.4",
+    "@misskey-dev/slacc-darwin-arm64": "0.0.4",
+    "@misskey-dev/slacc-android-arm64": "0.0.4",
+    "@misskey-dev/slacc-linux-arm64-gnu": "0.0.4",
+    "@misskey-dev/slacc-linux-arm64-musl": "0.0.4",
+    "@misskey-dev/slacc-win32-arm64-msvc": "0.0.4",
+    "@misskey-dev/slacc-linux-arm-gnueabihf": "0.0.4",
+    "@misskey-dev/slacc-android-arm-eabi": "0.0.4",
+    "@misskey-dev/slacc-darwin-universal": "0.0.4"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }

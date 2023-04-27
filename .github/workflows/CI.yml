@@ -235,6 +235,8 @@ jobs:
         with:
           node-version: 18
           check-latest: true
+          registry-url: https://npm.pkg.github.com
+          scope: "@misskey-dev"
       - uses: pnpm/action-setup@v2
         with:
           version: 8.3.1

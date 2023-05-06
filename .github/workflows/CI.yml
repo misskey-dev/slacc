@@ -187,6 +187,8 @@ jobs:
         shell: bash
       - name: Test bindings
         run: pnpm test
+      - name: Bench bindings
+        run: pnpm bench
   universal-macOS:
     name: Build universal macOS binary
     needs:

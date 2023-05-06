@@ -8,3 +8,8 @@ export class AhoCorasick {
   static withPatterns(patterns: Array<string>): JsAhoCorasick
   isMatch(input: string): boolean
 }
+export type JsZipReader = ZipReader
+export class ZipReader {
+  static withDestinationPath(path: string): JsZipReader
+  viaBuffer(buffer: Buffer): void
+}

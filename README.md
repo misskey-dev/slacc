@@ -4,4 +4,7 @@ An internal library for Misskey backend used to obtain performance benefits.
 
 ## modules
 
-- `AhoCorasick`
+- aho_corasick
+  - `AhoCorasick`
+- zip
+  - `ZipReader`

@@ -39,10 +39,11 @@
   },
   "scripts": {
     "artifacts": "napi artifacts",
+    "bench": "vitest bench --reporter verbose",
     "build": "napi build --platform --release",
     "build:debug": "napi build --platform",
     "prepublishOnly": "napi prepublish -t npm",
-    "test": "vitest bench --reporter verbose",
+    "test": "vitest test --reporter verbose",
     "universal": "napi universal",
     "version": "napi version"
   },

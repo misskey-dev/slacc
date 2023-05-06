@@ -252,6 +252,7 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { AhoCorasick } = nativeBinding
+const { AhoCorasick, ZipReader } = nativeBinding
 
 module.exports.AhoCorasick = AhoCorasick
+module.exports.ZipReader = ZipReader

@@ -1,7 +1,7 @@
 use aho_corasick;
 
 pub struct AhoCorasick {
-  ac: aho_corasick::AhoCorasick,
+  inner: aho_corasick::AhoCorasick,
 }
 
 #[napi(js_name = "AhoCorasick")]
@@ -13,14 +13,14 @@ pub struct JsAhoCorasick {
 impl JsAhoCorasick {
   #[napi(factory)]
   pub fn with_patterns(patterns: Vec<String>) -> Self {
-    let ac = aho_corasick::AhoCorasick::new(patterns).unwrap();
+    let inner = aho_corasick::AhoCorasick::new(patterns).unwrap();
     Self {
-      aho_corasick: AhoCorasick { ac },
+      aho_corasick: AhoCorasick { inner },
     }
   }
 
   #[napi]
   pub fn is_match(&self, input: String) -> bool {
-    self.aho_corasick.ac.is_match(&input)
+    self.aho_corasick.inner.is_match(&input)
   }
 }

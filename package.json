@@ -19,6 +19,12 @@
     }
   },
   "license": "MIT",
+  "files": [
+    "index.d.ts",
+    "index.js",
+    "LICENSE",
+    "README.md"
+  ],
   "devDependencies": {
     "@napi-rs/cli": "^2.15.2",
     "@vitest/ui": "^0.30.1",

@@ -38,16 +38,6 @@ jobs:
               curl -LSfs https://get.pnpm.io/install.sh | SHELL="$(type bash)" bash - &&
               pnpm build --target x86_64-unknown-linux-gnu &&
               strip *.node
-          - host: macos-12
-            target: x86_64-unknown-freebsd
-            vm: 'freebsd'
-            vm-version: '13.2'
-            build: |
-              sudo pkg install -y rust node npm
-              sudo corepack enable
-              pnpm install --no-frozen-lockfile
-              pnpm build --target x86_64-unknown-freebsd
-              strip *.node
           - host: macos-latest
             target: aarch64-apple-darwin
             build: |
@@ -98,7 +88,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup node
         uses: actions/setup-node@v3
-        if: ${{ !matrix.settings.docker && !matrix.settings.vm }}
+        if: ${{ !matrix.settings.docker }}
         with:
           node-version: 18
           check-latest: true
@@ -107,13 +97,12 @@ jobs:
           version: 8.3.1
       - name: Install
         uses: dtolnay/rust-toolchain@stable
-        if: ${{ !matrix.settings.docker && !matrix.settings.vm }}
+        if: ${{ !matrix.settings.docker }}
         with:
           toolchain: stable
           targets: ${{ matrix.settings.target }}
       - name: Cache cargo
         uses: actions/cache@v3
-        if: ${{ !matrix.settings.vm }}
         with:
           path: |
             ~/.cargo/registry/index/
@@ -136,7 +125,6 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
-        if: ${{ !matrix.settings.vm }}
       - name: Setup node x86
         uses: actions/setup-node@v3
         if: matrix.settings.target == 'i686-pc-windows-msvc'
@@ -154,21 +142,63 @@ jobs:
           image: ${{ matrix.settings.docker }}
           options: "--user 0:0 -v ${{ github.workspace }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}/.cargo/registry/index:/usr/local/cargo/registry/index -v ${{ github.workspace }}:/build -w /build"
           run: ${{ matrix.settings.build }}
-      - name: Build in VM
-        uses: cross-platform-actions/action@v0.13.0
-        if: ${{ matrix.settings.vm }}
-        with:
-          operating_system: ${{ matrix.settings.vm }}
-          version: ${{ matrix.settings.vm-version }}
-          run: ${{ matrix.settings.build }}
       - name: Build
         run: ${{ matrix.settings.build }}
-        if: ${{ !matrix.settings.docker && !matrix.settings.vm }}
+        if: ${{ !matrix.settings.docker }}
         shell: bash
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
+          path: ${{ env.APP_NAME }}.*.node
+          if-no-files-found: error
+  build-freebsd:
+    runs-on: macos-12
+    name: Build FreeBSD
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        id: build
+        uses: vmactions/freebsd-vm@v0
+        env:
+          DEBUG: napi:*
+          RUSTUP_HOME: /usr/local/rustup
+          CARGO_HOME: /usr/local/cargo
+          RUSTUP_IO_THREADS: 1
+        with:
+          envs: DEBUG RUSTUP_HOME CARGO_HOME RUSTUP_IO_THREADS
+          usesh: true
+          mem: 3000
+          prepare: |
+            pkg install -y -f curl node libnghttp2
+            curl -qL https://www.npmjs.com/install.sh | sh
+            npm install --location=global --ignore-scripts pnpm
+            curl https://sh.rustup.rs -sSf --output rustup.sh
+            sh rustup.sh -y --profile minimal --default-toolchain beta
+            export PATH="/usr/local/cargo/bin:$PATH"
+            echo "~~~~ rustc --version ~~~~"
+            rustc --version
+            echo "~~~~ node -v ~~~~"
+            node -v
+            echo "~~~~ pnpm --version ~~~~"
+            pnpm --version
+          run: |
+            export PATH="/usr/local/cargo/bin:$PATH"
+            pwd
+            ls -lah
+            whoami
+            env
+            freebsd-version
+            pnpm install
+            pnpm build
+            strip -x *.node
+            pnpm test
+            rm -rf node_modules
+            rm -rf target
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: bindings-freebsd
           path: ${{ env.APP_NAME }}.*.node
           if-no-files-found: error
   test-macOS-windows-binding:
@@ -250,6 +280,7 @@ jobs:
       packages: write
       contents: read
     needs:
+      - build-freebsd
       - test-macOS-windows-binding
       - universal-macOS
     steps:

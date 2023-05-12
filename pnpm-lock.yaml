@@ -1,5 +1,40 @@
 lockfileVersion: '6.0'
 
+optionalDependencies:
+  slacc-android-arm-eabi:
+    specifier: 0.0.8
+    version: 0.0.8
+  slacc-android-arm64:
+    specifier: 0.0.8
+    version: 0.0.8
+  slacc-darwin-arm64:
+    specifier: 0.0.8
+    version: 0.0.8
+  slacc-darwin-universal:
+    specifier: 0.0.8
+    version: 0.0.8
+  slacc-darwin-x64:
+    specifier: 0.0.8
+    version: 0.0.8
+  slacc-linux-arm-gnueabihf:
+    specifier: 0.0.8
+    version: 0.0.8
+  slacc-linux-arm64-gnu:
+    specifier: 0.0.8
+    version: 0.0.8
+  slacc-linux-arm64-musl:
+    specifier: 0.0.8
+    version: 0.0.8
+  slacc-linux-x64-gnu:
+    specifier: 0.0.8
+    version: 0.0.8
+  slacc-win32-arm64-msvc:
+    specifier: 0.0.8
+    version: 0.0.8
+  slacc-win32-x64-msvc:
+    specifier: 0.0.8
+    version: 0.0.8
+
 devDependencies:
   '@napi-rs/cli':
     specifier: ^2.15.2
@@ -1245,6 +1280,104 @@ packages:
       mrmime: 1.0.1
       totalist: 3.0.1
     dev: true
+
+  /slacc-android-arm-eabi@0.0.8:
+    resolution: {integrity: sha512-+areAkBVGdZIRWrK/ilu1udFQD2O/yizJacA90R/aCNmHqklPQWTnvZZvNMea47MfyWNomSEF3D39JGz/W//Ww==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [android]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /slacc-android-arm64@0.0.8:
+    resolution: {integrity: sha512-qLVlB3URh6SEXCUBSTcubjFqNs6yCgG/Pwe5QMr2kKDldfpVv2O7fYwHzVIqZeIivPTlEEK01o3kP8bQH2IMEA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [android]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /slacc-darwin-arm64@0.0.8:
+    resolution: {integrity: sha512-bqn9TZdbmddz2Oe7s/y1gfVXMThh6Y27XLR+c4PJRAQsuPgKo5A4wGgeNb39fQQtSbM7HlLEqTh4zKiq3PgOtw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /slacc-darwin-universal@0.0.8:
+    resolution: {integrity: sha512-FcsZ7Vk6UdoZrPHGq5Tmiutp3EyYlOEppqEgU0lsVWSGk7OVl2CrYJ1K+pyIxx2/VoW+FT1kJ3i3XLuz9Z3oHQ==}
+    engines: {node: '>= 10'}
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /slacc-darwin-x64@0.0.8:
+    resolution: {integrity: sha512-QSzvoazlCs2S+prvi12evIRAxm2B6WZw+GlI34qDEadWT0hYw/kW9pvDsfcuWhshZIeMc7D8I3peOgIuw0vpSg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /slacc-linux-arm-gnueabihf@0.0.8:
+    resolution: {integrity: sha512-aJxFkpJhcIWsVjkQuAOyouWVmS1hLUxa4gfRki0O2MaEPQfu+C4yip8rhEtmiomiK8o27sOlJvW9tOI5+sV66w==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /slacc-linux-arm64-gnu@0.0.8:
+    resolution: {integrity: sha512-SRmTuztzsD71Z4dXB9+963Mq7ublZqUCwMNTLTXmk4gUdaWVUsh/dL9FCKwQJQogdvFdsyb8IdRxX8zIIFLOQQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /slacc-linux-arm64-musl@0.0.8:
+    resolution: {integrity: sha512-OtZZywbqUSkzzcjg8HomcJgGg/1fv6m1riZ1nXSdyHGxMxIZxAoa858KluyxkrRFNwaJlhJNcT92GAt1clajjQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /slacc-linux-x64-gnu@0.0.8:
+    resolution: {integrity: sha512-j+CNGQbDcISEM8sJ1my+qhkowZKp+iU1l9c2gbA2+4qWZ+ZyGF6XX3ZgQ21hnbUagWqx5RJVBFz23vq91tP7YA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /slacc-win32-arm64-msvc@0.0.8:
+    resolution: {integrity: sha512-DYG8mSX0TA/qLj/mU1lPf1WJo7FfIy7Xb2heLLsu3caugdY8YTb/I8nPbqrMnPahHlcPp/GMNb+A+5r1ve1IfQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /slacc-win32-x64-msvc@0.0.8:
+    resolution: {integrity: sha512-2sVipcrPWf9ygbdA0cNZKbiLZYI+2fwofHsHCs6CKDBoJy7RD8phzRA/JGUZkXO6ZaD/OtZfB96gRQgazFprfw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
 
   /smart-buffer@4.2.0:
     resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==}

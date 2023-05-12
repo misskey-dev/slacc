@@ -13,6 +13,7 @@
         "aarch64-unknown-linux-musl",
         "aarch64-pc-windows-msvc",
         "armv7-unknown-linux-gnueabihf",
+        "x86_64-unknown-freebsd",
         "armv7-linux-androideabi",
         "universal-apple-darwin"
       ]
@@ -58,6 +59,7 @@
     "slacc-linux-arm64-musl": "0.0.8",
     "slacc-win32-arm64-msvc": "0.0.8",
     "slacc-linux-arm-gnueabihf": "0.0.8",
+    "slacc-freebsd-x64": "0.0.8",
     "slacc-android-arm-eabi": "0.0.8",
     "slacc-darwin-universal": "0.0.8"
   }

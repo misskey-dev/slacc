@@ -1,0 +1,21 @@
+{
+  "name": "slacc-freebsd-x64",
+  "version": "0.0.8",
+  "os": [
+    "freebsd"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "slacc.freebsd-x64.node",
+  "files": [
+    "slacc.freebsd-x64.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "libc": [
+    "glibc"
+  ]
+}

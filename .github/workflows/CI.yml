@@ -40,8 +40,8 @@ jobs:
               strip *.node
           - host: macos-12
             target: x86_64-unknown-freebsd
-            vm: 'freebsd'
-            vm-version: '13.2'
+            vm: "freebsd"
+            vm-version: "13.2"
             build: |
               sudo pkg install -y rust node npm
               sudo corepack enable

@@ -7,13 +7,14 @@
     "name": "slacc",
     "triples": {
       "additional": [
+        "x86_64-unknown-linux-musl",
+        "x86_64-unknown-freebsd",
         "aarch64-apple-darwin",
         "aarch64-linux-android",
         "aarch64-unknown-linux-gnu",
         "aarch64-unknown-linux-musl",
         "aarch64-pc-windows-msvc",
         "armv7-unknown-linux-gnueabihf",
-        "x86_64-unknown-freebsd",
         "armv7-linux-androideabi",
         "universal-apple-darwin"
       ]
@@ -53,13 +54,14 @@
     "slacc-win32-x64-msvc": "0.0.9",
     "slacc-darwin-x64": "0.0.9",
     "slacc-linux-x64-gnu": "0.0.9",
+    "slacc-linux-x64-musl": "0.0.9",
+    "slacc-freebsd-x64": "0.0.9",
     "slacc-darwin-arm64": "0.0.9",
     "slacc-android-arm64": "0.0.9",
     "slacc-linux-arm64-gnu": "0.0.9",
     "slacc-linux-arm64-musl": "0.0.9",
     "slacc-win32-arm64-msvc": "0.0.9",
     "slacc-linux-arm-gnueabihf": "0.0.9",
-    "slacc-freebsd-x64": "0.0.9",
     "slacc-android-arm-eabi": "0.0.9",
     "slacc-darwin-universal": "0.0.9"
   }

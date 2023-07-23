@@ -38,6 +38,14 @@ jobs:
               curl -LSfs https://get.pnpm.io/install.sh | SHELL="$(type bash)" bash - &&
               pnpm build --target x86_64-unknown-linux-gnu &&
               strip *.node
+          - host: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+            build: |-
+              set -e &&
+              curl -LSfs https://get.pnpm.io/install.sh | SHELL="$(type bash)" bash - &&
+              pnpm build --target x86_64-unknown-linux-musl &&
+              strip *.node
           - host: macos-12
             target: x86_64-unknown-freebsd
             vm: "freebsd"

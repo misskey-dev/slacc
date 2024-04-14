@@ -1,0 +1,18 @@
+diff --git a/docker/freebsd.sh b/docker/freebsd.sh
+index e144f40..27bdb1e 100755
+--- a/docker/freebsd.sh
++++ b/docker/freebsd.sh
+@@ -189,11 +189,12 @@ main() {
+     cp "${td}/freebsd/usr/lib/libc++.a" "${destdir}/lib"
+     cp "${td}/freebsd/usr/lib/libcxxrt.a" "${destdir}/lib"
+     cp "${td}/freebsd/usr/lib/libcompiler_rt.a" "${destdir}/lib"
+-    cp "${td}/freebsd/usr/lib"/lib{c,util,m,ssp_nonshared,memstat}.a "${destdir}/lib"
++    cp "${td}/freebsd/usr/lib"/lib{c,util,m,ssp_nonshared,memstat,elf}.a "${destdir}/lib"
+     cp "${td}/freebsd/usr/lib"/lib{rt,execinfo,procstat}.so.1 "${destdir}/lib"
+     cp "${td}/freebsd/usr/lib"/libmemstat.so.3 "${destdir}/lib"
+     cp "${td}/freebsd/usr/lib"/{crt1,Scrt1,crti,crtn}.o "${destdir}/lib"
+     cp "${td}/freebsd/usr/lib"/libkvm.a "${destdir}/lib"
++    cp "${td}/freebsd/usr/lib"/libelf.so "${destdir}/lib"
+ 
+     local lib=
+     local base=

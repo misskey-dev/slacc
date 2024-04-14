@@ -1,0 +1,18 @@
+diff --git a/node_modules/systeminformation/.DS_Store b/node_modules/systeminformation/.DS_Store
+new file mode 100644
+index 0000000..b7f8ca5
+Binary files /dev/null and b/node_modules/systeminformation/.DS_Store differ
+diff --git a/node_modules/systeminformation/lib/filesystem.js b/node_modules/systeminformation/lib/filesystem.js
+index 1128fa0..d99f8fe 100644
+--- a/node_modules/systeminformation/lib/filesystem.js
++++ b/node_modules/systeminformation/lib/filesystem.js
+@@ -924,8 +924,7 @@ function disksIO(callback) {
+       let rWaitTime = 0;
+       let wWaitTime = 0;
+       let tWaitTime = 0;
+-
+-      if ((_disk_io && !_disk_io.ms) || (_disk_io && _disk_io.ms && Date.now() - _disk_io.ms >= 500)) {
++      if (true) {
+         if (_linux || _freebsd || _openbsd || _netbsd) {
+           // prints Block layer statistics for all mounted volumes
+           // var cmd = "for mount in `lsblk | grep / | sed -r 's/│ └─//' | cut -d ' ' -f 1`; do cat /sys/block/$mount/stat | sed -r 's/ +/;/g' | sed -r 's/^;//'; done";

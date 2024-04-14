@@ -17,7 +17,7 @@ function isMusl() {
   // For Node 10
   if (!process.report || typeof process.report.getReport !== 'function') {
     try {
-      const lddPath = require('child_process').execSync('which ldd').toString().trim();
+      const lddPath = require('child_process').execSync('which ldd').toString().trim()
       return readFileSync(lddPath, 'utf8').includes('musl')
     } catch (e) {
       return true
@@ -237,6 +237,49 @@ switch (platform) {
           loadError = e
         }
         break
+      case 'riscv64':
+        if (isMusl()) {
+          localFileExisted = existsSync(
+            join(__dirname, 'slacc.linux-riscv64-musl.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./slacc.linux-riscv64-musl.node')
+            } else {
+              nativeBinding = require('slacc-linux-riscv64-musl')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        } else {
+          localFileExisted = existsSync(
+            join(__dirname, 'slacc.linux-riscv64-gnu.node')
+          )
+          try {
+            if (localFileExisted) {
+              nativeBinding = require('./slacc.linux-riscv64-gnu.node')
+            } else {
+              nativeBinding = require('slacc-linux-riscv64-gnu')
+            }
+          } catch (e) {
+            loadError = e
+          }
+        }
+        break
+      case 's390x':
+        localFileExisted = existsSync(
+          join(__dirname, 'slacc.linux-s390x-gnu.node')
+        )
+        try {
+          if (localFileExisted) {
+            nativeBinding = require('./slacc.linux-s390x-gnu.node')
+          } else {
+            nativeBinding = require('slacc-linux-s390x-gnu')
+          }
+        } catch (e) {
+          loadError = e
+        }
+        break
       default:
         throw new Error(`Unsupported architecture on Linux: ${arch}`)
     }
@@ -252,7 +295,15 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { AhoCorasick, ZipReader } = nativeBinding
+const { getDiskIoNonblocking, getDiskIo, getDiskSpaceNonblocking, getDiskSpace, getMemoryInfoNonblocking, getMemoryInfo, getNetworkInfoNonblocking, getNetworkInfo, AhoCorasick, ZipReader } = nativeBinding
 
+module.exports.getDiskIoNonblocking = getDiskIoNonblocking
+module.exports.getDiskIo = getDiskIo
+module.exports.getDiskSpaceNonblocking = getDiskSpaceNonblocking
+module.exports.getDiskSpace = getDiskSpace
+module.exports.getMemoryInfoNonblocking = getMemoryInfoNonblocking
+module.exports.getMemoryInfo = getMemoryInfo
+module.exports.getNetworkInfoNonblocking = getNetworkInfoNonblocking
+module.exports.getNetworkInfo = getNetworkInfo
 module.exports.AhoCorasick = AhoCorasick
 module.exports.ZipReader = ZipReader

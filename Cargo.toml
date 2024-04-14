@@ -6,12 +6,19 @@ version = "0.0.10"
 [lib]
 crate-type = ["cdylib"]
 
+[workspace]
+members = [".", "crates/*"]
+
 [dependencies]
 aho-corasick = "1.0.1"
 # Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
 napi = { version = "2.12.0", default-features = false, features = ["napi4"] }
 napi-derive = "2.12.2"
 zip = { version = "0.6.4" }
+slacc-system-metrics = { version = "0.0.10", path = "./crates/slacc-system-metrics", features = [
+    "napi",
+    "nonblocking",
+] }
 
 [build-dependencies]
 napi-build = "2.0.1"

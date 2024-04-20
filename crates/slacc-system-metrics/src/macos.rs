@@ -262,7 +262,7 @@ pub(crate) unsafe fn get_memory_info() -> Result<MemoryInformation, SlaccStatsEr
         command.as_mut_ptr(),
         command.len() as ::libc::c_uint,
         &raw mut page_size as *mut ::libc::c_void,
-        &mut std::mem::size_of::<::libc::c_ulong>(),
+        &mut std::mem::size_of::<u64>(),
         std::ptr::null_mut(),
         0,
     )
@@ -274,7 +274,7 @@ pub(crate) unsafe fn get_memory_info() -> Result<MemoryInformation, SlaccStatsEr
         command.as_mut_ptr(),
         command.len() as ::libc::c_uint,
         &raw mut memory_size as *mut ::libc::c_void,
-        &mut std::mem::size_of::<::libc::c_ulong>(),
+        &mut std::mem::size_of::<u64>(),
         std::ptr::null_mut(),
         0,
     )

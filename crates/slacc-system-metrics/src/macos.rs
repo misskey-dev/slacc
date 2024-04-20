@@ -231,7 +231,7 @@ pub(crate) unsafe fn get_disk_io() -> Result<DiskInformation, SlaccStatsError> {
 
         IOObjectRelease(parent);
         IOObjectRelease(item);
-        CFRelease(props_dictionary as *const _ as *const ::libc::c_void);
+        CFRelease(props_dictionary as *const _);
         item = IOIteratorNext(iterator);
     }
 
@@ -247,13 +247,13 @@ pub(crate) unsafe fn get_memory_info() -> Result<MemoryInformation, SlaccStatsEr
     let mut memory_size: u64 = 0;
     let mut command = [libc::CTL_HW, libc::HW_PAGESIZE];
     let host_port = libc::mach_host_self();
-    let mut statistic = MaybeUninit::<::libc::vm_statistics64>::uninit();
+    let mut statistic = std::mem::zeroed::<::libc::vm_statistics64>();
     let mut statistic_count = libc::HOST_VM_INFO64_COUNT;
 
     libc::host_statistics64(
         host_port,
         libc::HOST_VM_INFO64,
-        statistic.as_mut_ptr() as *mut i32,
+        &raw mut statistic as *mut i32,
         &mut statistic_count,
     )
     .into_errno()?;
@@ -269,7 +269,6 @@ pub(crate) unsafe fn get_memory_info() -> Result<MemoryInformation, SlaccStatsEr
     .into_errno()?;
 
     command = [libc::CTL_HW, libc::HW_MEMSIZE];
-    let statistic = statistic.assume_init();
 
     libc::sysctl(
         command.as_mut_ptr(),

@@ -92,7 +92,7 @@ pub(crate) unsafe fn get_network_info() -> Result<NetworkInformation, SlaccStats
         let mut message_ptr = buffer.as_ptr();
         let received = libc::recv(
             socket_fd,
-            buffer.as_ptr() as *mut ::libc::c_void,
+            buffer.as_mut_ptr() as *mut ::libc::c_void,
             8192, /* NLMSG_GOODSIZE */
             MSG_DONTWAIT,
         )

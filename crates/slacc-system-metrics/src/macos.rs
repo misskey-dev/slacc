@@ -22,25 +22,22 @@ use crate::{ErrnoExt, SlaccStatsError};
 #[rustfmt::skip]
 #[allow(non_upper_case_globals, dead_code)]
 mod constants {
-    const fn create_cstring(input: &[u8]) -> &std::ffi::CStr {
-        unsafe { std::ffi::CStr::from_bytes_with_nul_unchecked(input) }
-    }
-    pub(crate) const kIOMediaClass: &std::ffi::CStr = create_cstring(b"IOMedia\0");
-    pub(crate) const kIOServicePlane: &std::ffi::CStr = create_cstring(b"IOService\0");
-    pub(crate) const kIOBlockStorageDriverClass: &std::ffi::CStr = create_cstring(b"IOBlockStorageDriver\0");
-    pub(crate) const kIOBlockStorageDriverStatisticsKey: &std::ffi::CStr = create_cstring(b"Statistics\0");
-    pub(crate) const kIOBlockStorageDriverStatisticsBytesReadKey: &std::ffi::CStr = create_cstring(b"Bytes (Read)\0");
-    pub(crate) const kIOBlockStorageDriverStatisticsBytesWrittenKey: &std::ffi::CStr = create_cstring(b"Bytes (Write)\0");
-    pub(crate) const kIOBlockStorageDriverStatisticsReadErrorsKey: &std::ffi::CStr = create_cstring(b"Errors (Read)\0");
-    pub(crate) const kIOBlockStorageDriverStatisticsWriteErrorsKey: &std::ffi::CStr = create_cstring(b"Errors (Write)\0");
-    pub(crate) const kIOBlockStorageDriverStatisticsLatentReadTimeKey: &std::ffi::CStr = create_cstring(b"Latency Time (Read)\0");
-    pub(crate) const kIOBlockStorageDriverStatisticsLatentWriteTimeKey: &std::ffi::CStr = create_cstring(b"Latency Time (Write)\0");
-    pub(crate) const kIOBlockStorageDriverStatisticsReadsKey: &std::ffi::CStr = create_cstring(b"Operations (Read)\0");
-    pub(crate) const kIOBlockStorageDriverStatisticsWritesKey: &std::ffi::CStr = create_cstring(b"Operations (Write)\0");
-    pub(crate) const kIOBlockStorageDriverStatisticsReadRetriesKey: &std::ffi::CStr = create_cstring(b"Retries (Read)\0");
-    pub(crate) const kIOBlockStorageDriverStatisticsWriteRetriesKey: &std::ffi::CStr = create_cstring(b"Retries (Write)\0");
-    pub(crate) const kIOBlockStorageDriverStatisticsTotalReadTimeKey: &std::ffi::CStr = create_cstring(b"Total Time (Read)\0");
-    pub(crate) const kIOBlockStorageDriverStatisticsTotalWriteTimeKey: &std::ffi::CStr = create_cstring(b"Total Time (Write)\0");
+    pub(crate) const kIOMediaClass: &std::ffi::CStr = c"IOMedia";
+    pub(crate) const kIOServicePlane: &std::ffi::CStr = c"IOService";
+    pub(crate) const kIOBlockStorageDriverClass: &std::ffi::CStr = c"IOBlockStorageDriver";
+    pub(crate) const kIOBlockStorageDriverStatisticsKey: &std::ffi::CStr = c"Statistics";
+    pub(crate) const kIOBlockStorageDriverStatisticsBytesReadKey: &std::ffi::CStr = c"Bytes (Read)";
+    pub(crate) const kIOBlockStorageDriverStatisticsBytesWrittenKey: &std::ffi::CStr = c"Bytes (Write)";
+    pub(crate) const kIOBlockStorageDriverStatisticsReadErrorsKey: &std::ffi::CStr = c"Errors (Read)";
+    pub(crate) const kIOBlockStorageDriverStatisticsWriteErrorsKey: &std::ffi::CStr = c"Errors (Write)";
+    pub(crate) const kIOBlockStorageDriverStatisticsLatentReadTimeKey: &std::ffi::CStr = c"Latency Time (Read)";
+    pub(crate) const kIOBlockStorageDriverStatisticsLatentWriteTimeKey: &std::ffi::CStr = c"Latency Time (Write)";
+    pub(crate) const kIOBlockStorageDriverStatisticsReadsKey: &std::ffi::CStr = c"Operations (Read)";
+    pub(crate) const kIOBlockStorageDriverStatisticsWritesKey: &std::ffi::CStr = c"Operations (Write)";
+    pub(crate) const kIOBlockStorageDriverStatisticsReadRetriesKey: &std::ffi::CStr = c"Retries (Read)";
+    pub(crate) const kIOBlockStorageDriverStatisticsWriteRetriesKey: &std::ffi::CStr = c"Retries (Write)";
+    pub(crate) const kIOBlockStorageDriverStatisticsTotalReadTimeKey: &std::ffi::CStr = c"Total Time (Read)";
+    pub(crate) const kIOBlockStorageDriverStatisticsTotalWriteTimeKey: &std::ffi::CStr = c"Total Time (Write)";
 }
 
 #[link(name = "IOKit", kind = "framework")]

@@ -72,6 +72,10 @@ struct NetlinkRequest {
     generation: rtgenmsg,
 }
 
+const _: () = assert!(std::mem::align_of::<rtnl_link_stats64>() == 8);
+const _: () = assert!(std::mem::align_of::<libc::nlmsghdr>() == 4);
+const _: () = assert!(std::mem::align_of::<rtattr>() == 2);
+
 pub(crate) unsafe fn get_network_info() -> Result<NetworkInformation, SlaccStatsError> {
     let mut buffer = Vec::<u8>::with_capacity(8192 /* NLMSG_GOODSIZE */);
     let socket = libc::socket(PF_NETLINK, SOCK_RAW | SOCK_CLOEXEC, NETLINK_ROUTE).valid_fd()?;
@@ -99,6 +103,8 @@ pub(crate) unsafe fn get_network_info() -> Result<NetworkInformation, SlaccStats
         .into_errno2()?;
         buffer.set_len(received.try_into()?);
         while (received - offset) >= std::mem::size_of::<libc::nlmsghdr>() as i32 {
+            // Safety: `message_ptr` is rounded up to power of four and
+            // has padding, so always access to aligned pointer.
             let message = &*(message_ptr as *const ::libc::nlmsghdr);
             match message {
                 message if (message.nlmsg_flags & libc::NLM_F_DUMP_INTR as u16) != 0 => {
@@ -118,6 +124,8 @@ pub(crate) unsafe fn get_network_info() -> Result<NetworkInformation, SlaccStats
                     let mut message_offset = message_offset + ((ifinfo_size + 3) & !3);
                     while message_offset + rtattr_size <= message.nlmsg_len as usize {
                         let rtattr_message = message_ptr.add(message_offset);
+                        // Safety: `rtattr_message` is rounded up to power of two and
+                        // has padding, so always access to aligned pointer.
                         let rtattr_message = &*(rtattr_message as *const rtattr);
                         let rtattr_needs_offset = message_offset + rtattr_message.rta_len as usize;
                         if rtattr_needs_offset <= message.nlmsg_len as usize {
@@ -128,6 +136,8 @@ pub(crate) unsafe fn get_network_info() -> Result<NetworkInformation, SlaccStats
                                 let mut statistics = std::mem::zeroed::<rtnl_link_stats64>();
                                 let rta_data_length =
                                     std::mem::size_of::<rtnl_link_stats64>().min(rta_data_length);
+                                // Safety: We cannot guarantee `rtattr_message` is rounded up
+                                // to power of eighth, so copy memory block using `memcpy()`.
                                 std::ptr::copy_nonoverlapping::<u8>(
                                     rta_data_message,
                                     &raw mut statistics as *mut u8,

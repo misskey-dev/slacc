@@ -130,6 +130,9 @@ macro_rules! release_io {
     }}
 }
 
+const _: () = assert!(std::mem::align_of::<libc::if_msghdr>() == 4);
+const _: () = assert!(std::mem::align_of::<libc::if_msghdr2>() == 4);
+
 pub(crate) unsafe fn get_disk_io() -> Result<DiskInformation, SlaccStatsError> {
     unsafe fn take_value_as_dictionary_from_dictionary(
         key: &CStr,
@@ -324,13 +327,16 @@ pub(crate) unsafe fn get_network_info() -> Result<NetworkInformation, SlaccStats
     let limit = networks_addr.add(length);
 
     while networks_addr < limit {
-        let network = &*(networks_addr as *const ::libc::if_msghdr);
-        if network.ifm_type == libc::RTM_IFINFO2 as u8 {
+        let network = networks_addr as *const ::libc::if_msghdr;
+        if (*network).ifm_type == libc::RTM_IFINFO2 as u8 {
+            // Safety: `networks_addr` is rounded up to power of four and
+            // always access to aligned pointer.
             let network = &*(networks_addr as *const ::libc::if_msghdr2);
             read_bytes = read_bytes.saturating_add(network.ifm_data.ifi_ibytes);
             write_bytes = write_bytes.saturating_add(network.ifm_data.ifi_obytes);
         }
-        networks_addr = networks_addr.offset(network.ifm_msglen as isize);
+        assert!(((*network).ifm_msglen & !3) == (*network).ifm_msglen);
+        networks_addr = networks_addr.offset((*network).ifm_msglen as isize);
     }
 
     Ok(NetworkInformation {

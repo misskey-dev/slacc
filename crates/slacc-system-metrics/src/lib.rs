@@ -68,7 +68,7 @@ pub fn get_network_info_nonblocking(
 }
 
 /// Retrieving network information.
-#[cfg_attr(feature = "napi", napi)]
+#[cfg_attr(feature = "napi", napi(catch_unwind))]
 pub fn get_network_info() -> Result<NetworkInformation, SlaccStatsError> {
     crate::imp::get_network_info()
 }

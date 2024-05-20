@@ -335,7 +335,7 @@ pub(crate) unsafe fn get_network_info() -> Result<NetworkInformation, SlaccStats
             read_bytes = read_bytes.saturating_add(network.ifm_data.ifi_ibytes);
             write_bytes = write_bytes.saturating_add(network.ifm_data.ifi_obytes);
         }
-        assert!(((*network).ifm_msglen & !3) == (*network).ifm_msglen);
+        assert!((((*network).ifm_msglen + 3) & !3) == (*network).ifm_msglen);
         networks_addr = networks_addr.offset((*network).ifm_msglen as isize);
     }
 

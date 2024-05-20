@@ -1,0 +1,107 @@
+[tasks.build-darwin]
+command = "cargo"
+args = [
+    "build",
+    "--bins",
+    "--package=slacc-system-metrics",
+    "--target=aarch64-apple-darwin",
+]
+
+[tasks.build-windows]
+command = "cargo"
+args = [
+    "build",
+    "--bins",
+    "--package=slacc-system-metrics",
+    "--target=x86_64-pc-windows-gnu",
+]
+
+[tasks.build-linux]
+command = "cargo"
+args = [
+    "build",
+    "--bins",
+    "--package=slacc-system-metrics",
+    "--target=aarch64-unknown-linux-gnu",
+]
+
+[tasks.build-freebsd-amd]
+command = "cross"
+env = { CROSS_CONTAINER_OPTS = "--platform linux/amd64" }
+args = [
+    "build",
+    "--bins",
+    "--package=slacc-system-metrics",
+    "--target=x86_64-unknown-freebsd",
+]
+
+[tasks.build-freebsd-arm]
+command = "cross"
+env = { CROSS_CONTAINER_OPTS = "--platform linux/amd64" }
+args = [
+    "build",
+    "--bins",
+    "--package=slacc-system-metrics",
+    "--target=aarch64-unknown-freebsd",
+]
+
+[tasks.build-darwin-napi]
+command = "napi"
+args = ["build", "--platform", "--release", "--target=aarch64-apple-darwin"]
+
+[tasks.build-windows-napi]
+command = "napi"
+args = ["build", "--platform", "--release", "--target=x86_64-pc-windows-gnu"]
+
+[tasks.build-windows-msvc-napi]
+env = { CARGO = "cargo-xwin" }
+command = "napi"
+args = ["build", "--platform", "--release", "--target=x86_64-pc-windows-msvc"]
+
+[tasks.build-linux-napi]
+command = "napi"
+args = [
+    "build",
+    "--platform",
+    "--release",
+    "--target=aarch64-unknown-linux-gnu",
+]
+
+[tasks.build-freebsd-napi-amd]
+command = "napi"
+env = { CROSS_CONTAINER_OPTS = "--platform linux/amd64", CARGO = "cross" }
+args = ["build", "--platform", "--release", "--target=x86_64-unknown-freebsd"]
+
+[tasks.build-freebsd-napi-arm]
+command = "napi"
+env = { CROSS_CONTAINER_OPTS = "--platform linux/amd64", CARGO = "cross" }
+args = ["build", "--platform", "--release", "--target=aarch64-unknown-freebsd"]
+
+[tasks.build-napi]
+clear = true
+command = "cargo"
+args = ["check"]
+dependencies = [
+    "clean",
+    "build-linux-napi",
+    "build-darwin-napi",
+    "build-windows-msvc-napi",
+    "build-freebsd-napi-amd",
+    "build-freebsd-napi-arm",
+]
+
+[tasks.build]
+clear = true
+command = "cargo"
+args = ["check"]
+dependencies = [
+    "clean",
+    "build-linux",
+    "build-darwin",
+    "build-windows",
+    "build-freebsd-amd",
+    "build-freebsd-arm",
+]
+
+[config]
+default_to_workspace = false

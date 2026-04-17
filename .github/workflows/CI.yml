@@ -108,7 +108,7 @@ jobs:
               rustup update stable &&
               rustup default stable &&
               cargo -V &&
-              env AWS_LC_SYS_CMAKE_BUILDER=1 TARGET_CC=clang TARGET_CXX=clang++ TARGET_CFLAGS='--sysroot=/usr/aarch64-unknown-linux-gnu/aarch64-unknown-linux-gnu/sysroot --gcc-toolchain=/usr' TARGET_CXXFLAGS='--sysroot=/usr/aarch64-unknown-linux-gnu/aarch64-unknown-linux-gnu/sysroot --gcc-toolchain=/usr' TARGET_LDFLAGS='-fuse-ld=lld --sysroot=/usr/aarch64-unknown-linux-gnu/aarch64-unknown-linux-gnu/sysroot --gcc-toolchain=/usr' 'CC_aarch64-unknown-linux-gnu=clang' CC_aarch64_unknown_linux_gnu=clang 'CXX_aarch64-unknown-linux-gnu=clang++' CXX_aarch64_unknown_linux_gnu=clang++ pnpm build --target aarch64-unknown-linux-gnu &&
+              env AWS_LC_SYS_CMAKE_BUILDER=1 TARGET_CC=aarch64-unknown-linux-gnu-gcc TARGET_CXX=aarch64-unknown-linux-gnu-g++ 'CC_aarch64-unknown-linux-gnu=aarch64-unknown-linux-gnu-gcc' CC_aarch64_unknown_linux_gnu=aarch64-unknown-linux-gnu-gcc 'CXX_aarch64-unknown-linux-gnu=aarch64-unknown-linux-gnu-g++' CXX_aarch64_unknown_linux_gnu=aarch64-unknown-linux-gnu-g++ pnpm build --target aarch64-unknown-linux-gnu &&
               aarch64-unknown-linux-gnu-strip *.node
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf

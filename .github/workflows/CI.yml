@@ -39,7 +39,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: |-
               set -e &&
-              curl -LSfs https://get.pnpm.io/install.sh | SHELL="$(type bash)" bash - &&
+              corepack enable &&
               pnpm build --target x86_64-unknown-linux-gnu &&
               strip *.node
           - host: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: |-
               set -e &&
-              curl -LSfs https://get.pnpm.io/install.sh | SHELL="$(type bash)" bash - &&
+              corepack enable &&
               pnpm build --target x86_64-unknown-linux-musl &&
               strip *.node
           - host: ubuntu-latest
@@ -70,7 +70,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
             build: |-
               set -e &&
-              curl -LSfs https://get.pnpm.io/install.sh | SHELL="$(type bash)" bash - &&
+              corepack enable &&
               pnpm build --target aarch64-unknown-linux-gnu &&
               aarch64-unknown-linux-gnu-strip *.node
           - host: ubuntu-latest
@@ -96,8 +96,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: |-
               set -e &&
-              apk add --no-cache bash curl &&
-              curl -LSfs https://get.pnpm.io/install.sh | SHELL="$(type bash)" bash - &&
+              corepack enable &&
               rustup target add aarch64-unknown-linux-musl &&
               pnpm build --target aarch64-unknown-linux-musl &&
               /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip *.node
@@ -108,6 +107,8 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v6
+      - name: Enable corepack
+        run: corepack enable
       - name: Setup node
         uses: actions/setup-node@v6
         if: ${{ !matrix.settings.docker && !matrix.settings.vm }}
@@ -116,7 +117,6 @@ jobs:
           check-latest: true
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
-      - uses: pnpm/action-setup@v5
       - name: Install
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker && !matrix.settings.vm }}
@@ -158,7 +158,6 @@ jobs:
           architecture: x86
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
-      - uses: pnpm/action-setup@v5
       - name: Build in docker
         uses: addnab/docker-run-action@v3
         if: ${{ matrix.settings.docker }}
@@ -198,6 +197,8 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v6
+      - name: Enable corepack
+        run: corepack enable
       - name: Setup node
         uses: actions/setup-node@v6
         with:
@@ -205,7 +206,6 @@ jobs:
           check-latest: true
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
-      - uses: pnpm/action-setup@v5
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
       - name: Download artifacts
@@ -227,6 +227,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
+      - name: Enable corepack
+        run: corepack enable
       - name: Setup node
         uses: actions/setup-node@v6
         with:
@@ -234,7 +236,6 @@ jobs:
           check-latest: true
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
-      - uses: pnpm/action-setup@v5
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
       - name: Download macOS x64 artifact
@@ -266,6 +267,8 @@ jobs:
       - universal-macOS
     steps:
       - uses: actions/checkout@v6
+      - name: Enable corepack
+        run: corepack enable
       - name: Setup node
         uses: actions/setup-node@v6
         with:
@@ -273,7 +276,6 @@ jobs:
           check-latest: true
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
-      - uses: pnpm/action-setup@v5
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
       - name: Download all artifacts

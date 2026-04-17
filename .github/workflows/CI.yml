@@ -4,6 +4,8 @@ env:
   APP_NAME: slacc
   MACOSX_DEPLOYMENT_TARGET: "10.13"
   CARGO_INCREMENTAL: "1"
+  NODE_VERSION: "24.10.0"
+  PNPM_VERSION: "10.33.0"
 "on":
   push:
     branches:
@@ -39,8 +41,14 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: |-
               set -e &&
-              npm install -g corepack &&
-              corepack enable &&
+              apt-get update &&
+              apt-get install -y curl xz-utils &&
+              ARCH="$(uname -m)" &&
+              if [ "$ARCH" = "x86_64" ]; then NODE_ARCH=x64; elif [ "$ARCH" = "aarch64" ]; then NODE_ARCH=arm64; else echo "Unsupported arch: $ARCH"; exit 1; fi &&
+              curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${NODE_ARCH}.tar.xz" | tar -xJ --strip-components=1 -C /usr/local &&
+              node -v &&
+              npm -v &&
+              npm install -g pnpm@${PNPM_VERSION} &&
               pnpm build --target x86_64-unknown-linux-gnu &&
               strip *.node
           - host: ubuntu-latest
@@ -48,8 +56,13 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: |-
               set -e &&
-              npm install -g corepack &&
-              corepack enable &&
+              apk add --no-cache curl xz &&
+              ARCH="$(uname -m)" &&
+              if [ "$ARCH" = "x86_64" ]; then NODE_ARCH=x64-musl; elif [ "$ARCH" = "aarch64" ]; then NODE_ARCH=arm64-musl; else echo "Unsupported arch: $ARCH"; exit 1; fi &&
+              curl -fsSL "https://unofficial-builds.nodejs.org/download/release/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${NODE_ARCH}.tar.xz" | tar -xJ --strip-components=1 -C /usr/local &&
+              node -v &&
+              npm -v &&
+              npm install -g pnpm@${PNPM_VERSION} &&
               pnpm build --target x86_64-unknown-linux-musl &&
               strip *.node
           - host: ubuntu-latest
@@ -72,8 +85,14 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
             build: |-
               set -e &&
-              npm install -g corepack &&
-              corepack enable &&
+              apt-get update &&
+              apt-get install -y curl xz-utils &&
+              ARCH="$(uname -m)" &&
+              if [ "$ARCH" = "x86_64" ]; then NODE_ARCH=x64; elif [ "$ARCH" = "aarch64" ]; then NODE_ARCH=arm64; else echo "Unsupported arch: $ARCH"; exit 1; fi &&
+              curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${NODE_ARCH}.tar.xz" | tar -xJ --strip-components=1 -C /usr/local &&
+              node -v &&
+              npm -v &&
+              npm install -g pnpm@${PNPM_VERSION} &&
               pnpm build --target aarch64-unknown-linux-gnu &&
               aarch64-unknown-linux-gnu-strip *.node
           - host: ubuntu-latest
@@ -99,15 +118,20 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: |-
               set -e &&
-              npm install -g corepack &&
-              corepack enable &&
+              apk add --no-cache curl xz &&
+              ARCH="$(uname -m)" &&
+              if [ "$ARCH" = "x86_64" ]; then NODE_ARCH=x64-musl; elif [ "$ARCH" = "aarch64" ]; then NODE_ARCH=arm64-musl; else echo "Unsupported arch: $ARCH"; exit 1; fi &&
+              curl -LSfs "https://unofficial-builds.nodejs.org/download/release/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${NODE_ARCH}.tar.xz" | tar -xJ --strip-components=1 -C /usr/local &&
+              node -v &&
+              npm -v &&
+              npm install -g pnpm@${PNPM_VERSION} &&
               rustup target add aarch64-unknown-linux-musl &&
               pnpm build --target aarch64-unknown-linux-musl &&
               /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip *.node
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             build: pnpm build --target aarch64-pc-windows-msvc
-    name: stable - ${{ matrix.settings.target }} - node@24
+    name: stable - ${{ matrix.settings.target }} - node
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v6
@@ -117,7 +141,7 @@ jobs:
         uses: actions/setup-node@v6
         if: ${{ !matrix.settings.docker && !matrix.settings.vm }}
         with:
-          node-version: 24
+          node-version: ${{ env.NODE_VERSION }}
           check-latest: true
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
@@ -157,7 +181,7 @@ jobs:
         uses: actions/setup-node@v6
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
-          node-version: 24
+          node-version: ${{ env.NODE_VERSION }}
           check-latest: true
           architecture: x86
           cache: pnpm
@@ -187,7 +211,7 @@ jobs:
           path: ${{ env.APP_NAME }}.*.node
           if-no-files-found: error
   test-macOS-windows-binding:
-    name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
+    name: Test bindings on ${{ matrix.settings.target }} - node@24
     needs:
       - build
     strategy:
@@ -196,8 +220,6 @@ jobs:
         settings:
           - host: windows-latest
             target: x86_64-pc-windows-msvc
-        node:
-          - "24"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v6
@@ -206,7 +228,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.node }}
+          node-version: ${{ env.NODE_VERSION }}
           check-latest: true
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
@@ -236,7 +258,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: ${{ env.NODE_VERSION }}
           check-latest: true
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
@@ -276,7 +298,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: ${{ env.NODE_VERSION }}
           check-latest: true
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml

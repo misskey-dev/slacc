@@ -328,14 +328,15 @@ jobs:
       - name: Publish
         run: |
           npm config set provenance true
+          npm config set access public
           if git log -1 --pretty=%B | grep "^build: bump [0-9]\+\.[0-9]\+\.[0-9]\+$";
           then
             echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN" >> ~/.npmrc
-            npm publish --access public
+            npm publish
           elif git log -1 --pretty=%B | grep "^build: bump [0-9]\+\.[0-9]\+\.[0-9]\+";
           then
             echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN" >> ~/.npmrc
-            npm publish --tag next --access public
+            npm publish --tag next
           else
             echo "Not a release, skipping publish"
           fi

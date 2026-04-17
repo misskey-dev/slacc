@@ -54,6 +54,7 @@ jobs:
               rustup update stable &&
               rustup default stable &&
               cargo -V &&
+              pnpm install --no-frozen-lockfile &&
               pnpm build --target x86_64-unknown-linux-gnu &&
               strip *.node
           - host: ubuntu-latest
@@ -73,6 +74,7 @@ jobs:
               rustup update stable &&
               rustup default stable &&
               cargo -V &&
+              pnpm install --no-frozen-lockfile &&
               pnpm build --target x86_64-unknown-linux-musl &&
               strip *.node
           - host: ubuntu-latest
@@ -108,6 +110,7 @@ jobs:
               rustup update stable &&
               rustup default stable &&
               cargo -V &&
+              pnpm install --no-frozen-lockfile &&
               pnpm build --target aarch64-unknown-linux-gnu &&
               aarch64-unknown-linux-gnu-strip *.node
           - host: ubuntu-latest
@@ -145,6 +148,7 @@ jobs:
               rustup update stable &&
               rustup default stable &&
               cargo -V &&
+              pnpm install --no-frozen-lockfile &&
               rustup target add aarch64-unknown-linux-musl &&
               pnpm build --target aarch64-unknown-linux-musl &&
               /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip *.node
@@ -196,7 +200,7 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        if: ${{ !matrix.settings.vm }}
+        if: ${{ !matrix.settings.vm && !matrix.settings.docker }}
       - name: Setup node x86
         uses: actions/setup-node@v6
         if: matrix.settings.target == 'i686-pc-windows-msvc'

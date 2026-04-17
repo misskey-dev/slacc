@@ -329,8 +329,6 @@ jobs:
         run: |
           npm config set provenance true
           npm config set access public
-          npm config set //registry.npmjs.org/:_authToken "$NODE_AUTH_TOKEN"
-          npm whoami
           if git log -1 --pretty=%B | grep "^build: bump [0-9]\+\.[0-9]\+\.[0-9]\+$";
           then
             npm publish
@@ -342,4 +340,3 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}

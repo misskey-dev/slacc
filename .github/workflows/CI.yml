@@ -231,7 +231,7 @@ jobs:
           path: ${{ env.APP_NAME }}.*.node
           if-no-files-found: error
   test-macOS-windows-binding:
-    name: Test bindings on ${{ matrix.settings.target }} - node@24
+    name: Test bindings on ${{ matrix.settings.target }} - node
     needs:
       - build
     strategy:
@@ -264,8 +264,6 @@ jobs:
         shell: bash
       - name: Test bindings
         run: pnpm test
-      - name: Bench bindings
-        run: pnpm bench
   universal-macOS:
     name: Build universal macOS binary
     needs:

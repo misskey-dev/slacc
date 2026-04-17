@@ -12,12 +12,6 @@ env:
       - master
     tags-ignore:
       - "**"
-    paths-ignore:
-      - "**/*.md"
-      - LICENSE
-      - "**/*.gitignore"
-      - .editorconfig
-      - docs/**
   pull_request: null
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

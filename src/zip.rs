@@ -28,11 +28,11 @@ impl JsZipReader {
 
   #[napi]
   pub fn via_buffer(&self, buffer: Buffer) -> Result<()> {
-    let mut zip = zip::ZipArchive::new(Cursor::new(buffer.as_ref())).or_else(|err| {
-      Err(Error::new(
+    let mut zip = zip::ZipArchive::new(Cursor::new(buffer.as_ref())).map_err(|err| {
+      Error::new(
         Status::InvalidArg,
         format!("Failed to open zip archive: {}", err),
-      ))
+      )
     })?;
     self.extract(&mut zip)
   }
@@ -40,11 +40,11 @@ impl JsZipReader {
   fn extract(&self, zip: &mut zip::ZipArchive<Cursor<&[u8]>>) -> Result<()> {
     match &self.destination {
       DestinationType::Path(path) => {
-        zip.extract(path).or_else(|err| {
-          Err(Error::new(
+        zip.extract(path).map_err(|err| {
+          Error::new(
             Status::InvalidArg,
             format!("Failed to extract zip archive: {}", err),
-          ))
+          )
         })?;
       }
     }

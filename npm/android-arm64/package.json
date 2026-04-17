@@ -1,6 +1,6 @@
 {
   "name": "slacc-android-arm64",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "os": [
     "android"
   ],
@@ -13,6 +13,6 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">= 10"
+    "node": ">=24 || ^23.6.0 || ^22.14.0"
   }
 }

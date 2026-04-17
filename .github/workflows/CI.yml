@@ -3,6 +3,7 @@ env:
   DEBUG: napi:*
   APP_NAME: slacc
   MACOSX_DEPLOYMENT_TARGET: "10.13"
+  CARGO_INCREMENTAL: "1"
 "on":
   push:
     branches:
@@ -16,13 +17,16 @@ env:
       - .editorconfig
       - docs/**
   pull_request: null
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
     strategy:
       fail-fast: false
       matrix:
         settings:
-          - host: macos-latest
+          - host: macos-13
             target: x86_64-apple-darwin
             build: |
               pnpm build
@@ -46,10 +50,10 @@ jobs:
               curl -LSfs https://get.pnpm.io/install.sh | SHELL="$(type bash)" bash - &&
               pnpm build --target x86_64-unknown-linux-musl &&
               strip *.node
-          - host: macos-12
+          - host: ubuntu-latest
             target: x86_64-unknown-freebsd
             vm: "freebsd"
-            vm-version: "13.2"
+            vm-version: "14.2"
             build: |
               sudo pkg install -y rust node npm
               sudo corepack enable
@@ -100,19 +104,19 @@ jobs:
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             build: pnpm build --target aarch64-pc-windows-msvc
-    name: stable - ${{ matrix.settings.target }} - node@18
+    name: stable - ${{ matrix.settings.target }} - node@24
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         if: ${{ !matrix.settings.docker && !matrix.settings.vm }}
         with:
-          node-version: 18
+          node-version: 24
           check-latest: true
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.3.1
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - uses: pnpm/action-setup@v5
       - name: Install
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker && !matrix.settings.vm }}
@@ -120,7 +124,7 @@ jobs:
           toolchain: stable
           targets: ${{ matrix.settings.target }}
       - name: Cache cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         if: ${{ !matrix.settings.vm }}
         with:
           path: |
@@ -130,7 +134,7 @@ jobs:
             .cargo-cache
             target/
           key: ${{ matrix.settings.target }}-cargo-${{ matrix.settings.host }}
-      - uses: goto-bus-stop/setup-zig@v2
+      - uses: mlugg/setup-zig@v2
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
         with:
           version: 0.10.1
@@ -146,15 +150,15 @@ jobs:
         run: pnpm install --no-frozen-lockfile
         if: ${{ !matrix.settings.vm }}
       - name: Setup node x86
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
-          node-version: 18
+          node-version: 24
           check-latest: true
           architecture: x86
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.3.1
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - uses: pnpm/action-setup@v5
       - name: Build in docker
         uses: addnab/docker-run-action@v3
         if: ${{ matrix.settings.docker }}
@@ -163,7 +167,7 @@ jobs:
           options: "--user 0:0 -v ${{ github.workspace }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}/.cargo/registry/index:/usr/local/cargo/registry/index -v ${{ github.workspace }}:/build -w /build"
           run: ${{ matrix.settings.build }}
       - name: Build in VM
-        uses: cross-platform-actions/action@v0.13.0
+        uses: cross-platform-actions/action@v1.0.0
         if: ${{ matrix.settings.vm }}
         with:
           operating_system: ${{ matrix.settings.vm }}
@@ -174,7 +178,7 @@ jobs:
         if: ${{ !matrix.settings.docker && !matrix.settings.vm }}
         shell: bash
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: bindings-${{ matrix.settings.target }}
           path: ${{ env.APP_NAME }}.*.node
@@ -190,22 +194,22 @@ jobs:
           - host: windows-latest
             target: x86_64-pc-windows-msvc
         node:
-          - "18"
+          - "24"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.3.1
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - uses: pnpm/action-setup@v5
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v8
         with:
           name: bindings-${{ matrix.settings.target }}
           path: .
@@ -222,31 +226,31 @@ jobs:
       - build
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 24
           check-latest: true
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.3.1
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - uses: pnpm/action-setup@v5
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
       - name: Download macOS x64 artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v8
         with:
           name: bindings-x86_64-apple-darwin
           path: artifacts
       - name: Download macOS arm64 artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v8
         with:
           name: bindings-aarch64-apple-darwin
           path: artifacts
       - name: Combine binaries
         run: pnpm universal
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: bindings-universal-apple-darwin
           path: ${{ env.APP_NAME }}.*.node
@@ -255,25 +259,25 @@ jobs:
     name: Publish
     runs-on: ubuntu-latest
     permissions:
-      packages: write
-      contents: read
+      id-token: write
+      contents: write
     needs:
       - test-macOS-windows-binding
       - universal-macOS
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 24
           check-latest: true
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.3.1
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - uses: pnpm/action-setup@v5
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
       - name: Download all artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v8
         with:
           path: artifacts
       - name: Move artifacts
@@ -283,6 +287,7 @@ jobs:
         shell: bash
       - name: Publish
         run: |
+          npm config set provenance true
           if git log -1 --pretty=%B | grep "^build: bump [0-9]\+\.[0-9]\+\.[0-9]\+$";
           then
             echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN" >> ~/.npmrc

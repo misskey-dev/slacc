@@ -1,6 +1,6 @@
 {
   "name": "slacc-linux-x64-musl",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "os": [
     "linux"
   ],
@@ -13,9 +13,9 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">= 10"
+    "node": ">=24 || ^23.6.0 || ^22.14.0"
   },
   "libc": [
-    "glibc"
+    "musl"
   ]
 }

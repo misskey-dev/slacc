@@ -1,24 +1,25 @@
 {
   "name": "slacc",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
-    "name": "slacc",
-    "triples": {
-      "additional": [
-        "x86_64-unknown-linux-musl",
-        "x86_64-unknown-freebsd",
-        "aarch64-apple-darwin",
-        "aarch64-linux-android",
-        "aarch64-unknown-linux-gnu",
-        "aarch64-unknown-linux-musl",
-        "aarch64-pc-windows-msvc",
-        "armv7-unknown-linux-gnueabihf",
-        "armv7-linux-androideabi",
-        "universal-apple-darwin"
-      ]
-    }
+    "binaryName": "slacc",
+    "targets": [
+      "aarch64-apple-darwin",
+      "aarch64-linux-android",
+      "aarch64-pc-windows-msvc",
+      "aarch64-unknown-linux-gnu",
+      "aarch64-unknown-linux-musl",
+      "armv7-linux-androideabi",
+      "armv7-unknown-linux-gnueabihf",
+      "universal-apple-darwin",
+      "x86_64-apple-darwin",
+      "x86_64-pc-windows-msvc",
+      "x86_64-unknown-freebsd",
+      "x86_64-unknown-linux-gnu",
+      "x86_64-unknown-linux-musl"
+    ]
   },
   "license": "MIT",
   "files": [
@@ -28,16 +29,16 @@
     "README.md"
   ],
   "devDependencies": {
-    "@napi-rs/cli": "^2.15.2",
-    "@vitest/ui": "^0.30.1",
-    "re2": "^1.18.0",
-    "vitest": "^0.30.1"
+    "@napi-rs/cli": "^3.6.2",
+    "@vitest/ui": "^4.1.4",
+    "re2": "^1.24.0",
+    "vitest": "^4.1.4"
   },
   "ava": {
     "timeout": "3m"
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">=24 || ^23.6.0 || ^22.14.0"
   },
   "scripts": {
     "artifacts": "napi artifacts",
@@ -49,20 +50,20 @@
     "universal": "napi universal",
     "version": "napi version"
   },
-  "packageManager": "pnpm@8.3.1",
+  "packageManager": "pnpm@10.33.0",
   "optionalDependencies": {
-    "slacc-win32-x64-msvc": "0.0.10",
-    "slacc-darwin-x64": "0.0.10",
-    "slacc-linux-x64-gnu": "0.0.10",
-    "slacc-linux-x64-musl": "0.0.10",
-    "slacc-freebsd-x64": "0.0.10",
-    "slacc-darwin-arm64": "0.0.10",
-    "slacc-android-arm64": "0.0.10",
-    "slacc-linux-arm64-gnu": "0.0.10",
-    "slacc-linux-arm64-musl": "0.0.10",
-    "slacc-win32-arm64-msvc": "0.0.10",
-    "slacc-linux-arm-gnueabihf": "0.0.10",
-    "slacc-android-arm-eabi": "0.0.10",
-    "slacc-darwin-universal": "0.0.10"
+    "slacc-win32-x64-msvc": "0.1.0",
+    "slacc-darwin-x64": "0.1.0",
+    "slacc-linux-x64-gnu": "0.1.0",
+    "slacc-linux-x64-musl": "0.1.0",
+    "slacc-freebsd-x64": "0.1.0",
+    "slacc-darwin-arm64": "0.1.0",
+    "slacc-android-arm64": "0.1.0",
+    "slacc-linux-arm64-gnu": "0.1.0",
+    "slacc-linux-arm64-musl": "0.1.0",
+    "slacc-win32-arm64-msvc": "0.1.0",
+    "slacc-linux-arm-gnueabihf": "0.1.0",
+    "slacc-android-arm-eabi": "0.1.0",
+    "slacc-darwin-universal": "0.1.0"
   }
 }

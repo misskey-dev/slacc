@@ -1,20 +1,31 @@
 [package]
 edition = "2021"
 name = "slacc"
-version = "0.0.10"
+version = "0.1.0"
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-aho-corasick = "1.0.1"
-# Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
-napi = { version = "2.12.0", default-features = false, features = ["napi4"] }
-napi-derive = "2.12.2"
-zip = { version = "0.6.4" }
+aho-corasick = "1.1.4"
+aws-lc-rs = { version = "1.16.3", default-features = false, features = [
+  "alloc",
+  "aws-lc-sys",
+  "prebuilt-nasm",
+  "ring-io",
+  "ring-sig-verify",
+] }
+napi = { version = "3.8.5", default-features = false, features = ["napi10"] }
+napi-derive = "3.5.4"
+rayon = "1.12.0"
+rustls-pki-types = { version = "1.14.0", default-features = false, features = [
+  "alloc",
+  "std",
+] }
+zip = "8.5.1"
 
 [build-dependencies]
-napi-build = "2.0.1"
+napi-build = "2.3.1"
 
 [profile.release]
 lto = true

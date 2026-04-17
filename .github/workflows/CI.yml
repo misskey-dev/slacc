@@ -39,6 +39,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: |-
               set -e &&
+              npm install -g corepack &&
               corepack enable &&
               pnpm build --target x86_64-unknown-linux-gnu &&
               strip *.node
@@ -47,6 +48,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: |-
               set -e &&
+              npm install -g corepack &&
               corepack enable &&
               pnpm build --target x86_64-unknown-linux-musl &&
               strip *.node
@@ -70,6 +72,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
             build: |-
               set -e &&
+              npm install -g corepack &&
               corepack enable &&
               pnpm build --target aarch64-unknown-linux-gnu &&
               aarch64-unknown-linux-gnu-strip *.node
@@ -96,6 +99,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: |-
               set -e &&
+              npm install -g corepack &&
               corepack enable &&
               rustup target add aarch64-unknown-linux-musl &&
               pnpm build --target aarch64-unknown-linux-musl &&

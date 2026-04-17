@@ -49,8 +49,8 @@ jobs:
               hash -r &&
               node -v &&
               npm -v &&
-              rm -f /usr/local/bin/pnpm /usr/local/bin/pnpx /usr/bin/pnpm /usr/bin/pnpx &&
-              npm install -g pnpm@${PNPM_VERSION} &&
+              corepack enable &&
+              corepack prepare pnpm@${PNPM_VERSION} --activate &&
               pnpm build --target x86_64-unknown-linux-gnu &&
               strip *.node
           - host: ubuntu-latest
@@ -65,8 +65,8 @@ jobs:
               hash -r &&
               node -v &&
               npm -v &&
-              rm -f /usr/local/bin/pnpm /usr/local/bin/pnpx /usr/bin/pnpm /usr/bin/pnpx &&
-              npm install -g pnpm@${PNPM_VERSION} &&
+              corepack enable &&
+              corepack prepare pnpm@${PNPM_VERSION} --activate &&
               pnpm build --target x86_64-unknown-linux-musl &&
               strip *.node
           - host: ubuntu-latest
@@ -97,8 +97,8 @@ jobs:
               hash -r &&
               node -v &&
               npm -v &&
-              rm -f /usr/local/bin/pnpm /usr/local/bin/pnpx /usr/bin/pnpm /usr/bin/pnpx &&
-              npm install -g pnpm@${PNPM_VERSION} &&
+              corepack enable &&
+              corepack prepare pnpm@${PNPM_VERSION} --activate &&
               pnpm build --target aarch64-unknown-linux-gnu &&
               aarch64-unknown-linux-gnu-strip *.node
           - host: ubuntu-latest
@@ -131,8 +131,8 @@ jobs:
               hash -r &&
               node -v &&
               npm -v &&
-              rm -f /usr/local/bin/pnpm /usr/local/bin/pnpx /usr/bin/pnpm /usr/bin/pnpx &&
-              npm install -g pnpm@${PNPM_VERSION} &&
+              corepack enable &&
+              corepack prepare pnpm@${PNPM_VERSION} --activate &&
               rustup target add aarch64-unknown-linux-musl &&
               pnpm build --target aarch64-unknown-linux-musl &&
               /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip *.node

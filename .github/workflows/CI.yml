@@ -54,7 +54,7 @@ jobs:
               rustup update stable &&
               rustup default stable &&
               cargo -V &&
-              env TARGET_CC=clang TARGET_CXX=clang++ 'CC_x86_64-unknown-linux-gnu=clang' CC_x86_64_unknown_linux_gnu=clang 'CXX_x86_64-unknown-linux-gnu=clang++' CXX_x86_64_unknown_linux_gnu=clang++ pnpm build --target x86_64-unknown-linux-gnu &&
+              env AWS_LC_SYS_CMAKE_BUILDER=1 TARGET_CC=clang TARGET_CXX=clang++ 'CC_x86_64-unknown-linux-gnu=clang' CC_x86_64_unknown_linux_gnu=clang 'CXX_x86_64-unknown-linux-gnu=clang++' CXX_x86_64_unknown_linux_gnu=clang++ pnpm build --target x86_64-unknown-linux-gnu &&
               strip *.node
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
@@ -108,7 +108,7 @@ jobs:
               rustup update stable &&
               rustup default stable &&
               cargo -V &&
-              env TARGET_CC=clang TARGET_CXX=clang++ 'CC_aarch64-unknown-linux-gnu=clang' CC_aarch64_unknown_linux_gnu=clang 'CXX_aarch64-unknown-linux-gnu=clang++' CXX_aarch64_unknown_linux_gnu=clang++ pnpm build --target aarch64-unknown-linux-gnu &&
+              env AWS_LC_SYS_CMAKE_BUILDER=1 TARGET_CC=clang TARGET_CXX=clang++ 'CC_aarch64-unknown-linux-gnu=clang' CC_aarch64_unknown_linux_gnu=clang 'CXX_aarch64-unknown-linux-gnu=clang++' CXX_aarch64_unknown_linux_gnu=clang++ pnpm build --target aarch64-unknown-linux-gnu &&
               aarch64-unknown-linux-gnu-strip *.node
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf

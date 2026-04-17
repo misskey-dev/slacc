@@ -47,7 +47,7 @@
     "build:debug": "napi build --platform",
     "prepublishOnly": "napi prepublish -t npm",
     "test": "vitest test --reporter verbose",
-    "universal": "napi universal",
+    "universal": "napi universalize",
     "version": "napi version"
   },
   "packageManager": "pnpm@10.33.0",

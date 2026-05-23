@@ -35,7 +35,7 @@ export async function loadIsolatedSlaccBinding(namespace) {
   }
 
   const sourcePath = await resolveNativeBinaryPath();
-  const tempDir = await mkdtemp(join(tmpdir(), `slacc-bench-${namespace}-`));
+  const tempDir = await mkdtemp(join(tmpdir(), namespace));
   const destinationPath = join(
     tempDir,
     basename(sourcePath, ".node") + `.${namespace}.node`,

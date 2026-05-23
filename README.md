@@ -8,6 +8,7 @@ An internal library for Misskey backend used to obtain performance benefits.
 - aho_corasick
   - `AhoCorasick`
 - aws-lc-sys
-  - `RsaKeyPair` (requires init before use)
+  - `Signer` (requires init before use)
+  - `Verifier` (requires init before use)
 - zip
   - `ZipReader`

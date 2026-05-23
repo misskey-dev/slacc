@@ -6,7 +6,7 @@ import os from "node:os";
 import { basename, dirname, join } from "node:path";
 import { promisify } from "node:util";
 import { afterEach, beforeEach, bench, describe, expect } from "vitest";
-import { loadIsolatedSlaccBinding } from "./aws_lc_rs.bench.loader.mjs";
+import { loadIsolatedSlaccBinding } from "./aws_lc_rs.loader.mjs";
 
 const { privateKey, publicKey } = crypto.generateKeyPairSync("rsa", {
   modulusLength: 2048,
@@ -278,9 +278,9 @@ function createNodePrivateKeyPool(keyPoolSize) {
   );
 }
 
-function createSlaccKeyPool(keyPoolSize, SlaccRsaKeyPair) {
+function createSlaccKeyPool(keyPoolSize, Signer) {
   return Array.from({ length: keyPoolSize }, () =>
-    SlaccRsaKeyPair.fromPem(privateKeyPem),
+    Signer.fromPem(slacc.Cryptosuite.RsaSignature2018, privateKeyPem),
   );
 }
 
@@ -296,11 +296,11 @@ async function loadSlaccVariants() {
   const variants = new Map();
 
   for (const numThreads of slaccThreadVariants) {
-    const namespace = `threads-${numThreads}`;
-    const slaccBinding = await loadIsolatedSlaccBinding(namespace);
-    const { init: slaccInit, RsaKeyPair: SlaccRsaKeyPair } = slaccBinding;
-    slaccInit(numThreads);
-    variants.set(numThreads, SlaccRsaKeyPair);
+    const { init, Signer } = await loadIsolatedSlaccBinding(
+      `aws_lc_rs.bench.${numThreads}`,
+    );
+    init(numThreads);
+    variants.set(numThreads, Signer);
   }
 
   globalThis[slaccVariantCacheKey] = variants;
@@ -414,7 +414,7 @@ describe("aws_lc_rs", () => {
                               slaccSignPool[
                                 operationIndex % slaccSignPool.length
                               ];
-                            const signature = await sign(payload);
+                            const signature = await sign([payload]);
                             return { payload, signature };
                           },
                         );

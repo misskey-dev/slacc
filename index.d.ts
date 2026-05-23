@@ -6,11 +6,22 @@ export declare class AhoCorasick {
 }
 export type JsAhoCorasick = AhoCorasick
 
-export declare class RsaKeyPair {
-  static fromPem(pem: string): RsaKeyPair
-  sign(data: Buffer, callback: ((err: Error | null, arg: Buffer) => void)): void
+export declare class Signer {
+  static fromPkcs8Der(suite: SignatureAlgorithmIdentifier, der: Buffer): Signer
+  static fromPkcs8Pem(suite: SignatureAlgorithmIdentifier, pem: string): Signer
+  get publicKey(): Buffer
+  signParts(parts: Array<Buffer>, callback: ((err: Error | null, arg: Buffer) => any)): void
+  signRaw(payload: Buffer, callback: ((err: Error | null, arg: Buffer) => any)): void
 }
-export type JsRsaKeyPair = RsaKeyPair
+export type JsSigner = Signer
+
+export declare class Verifier {
+  static fromSpkiDer(suite: SignatureAlgorithmIdentifier, der: Buffer): Verifier
+  static fromSpkiPem(suite: SignatureAlgorithmIdentifier, pem: string): Verifier
+  verifyParts(signature: Buffer, parts: Array<Buffer>, callback: ((err: Error | null, arg: boolean) => any)): void
+  verifyRaw(signature: Buffer, payload: Buffer, callback: ((err: Error | null, arg: boolean) => any)): void
+}
+export type JsVerifier = Verifier
 
 export declare class ZipReader {
   static withDestinationPath(path: string): ZipReader
@@ -19,3 +30,9 @@ export declare class ZipReader {
 export type JsZipReader = ZipReader
 
 export declare function init(numThreads: number): void
+
+export declare const enum SignatureAlgorithmIdentifier {
+  Mldsa44 = 'Mldsa44',
+  Eddsa = 'Eddsa',
+  Rsa2048_8192 = 'Rsa2048_8192'
+}

@@ -1,6 +1,6 @@
 {
   "name": "slacc",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/misskey-dev/slacc"
@@ -56,18 +56,18 @@
   },
   "packageManager": "pnpm@10.33.0",
   "optionalDependencies": {
-    "slacc-win32-x64-msvc": "0.1.5",
-    "slacc-darwin-x64": "0.1.5",
-    "slacc-linux-x64-gnu": "0.1.5",
-    "slacc-linux-x64-musl": "0.1.5",
-    "slacc-freebsd-x64": "0.1.5",
-    "slacc-darwin-arm64": "0.1.5",
-    "slacc-android-arm64": "0.1.5",
-    "slacc-linux-arm64-gnu": "0.1.5",
-    "slacc-linux-arm64-musl": "0.1.5",
-    "slacc-win32-arm64-msvc": "0.1.5",
-    "slacc-linux-arm-gnueabihf": "0.1.5",
-    "slacc-android-arm-eabi": "0.1.5",
-    "slacc-darwin-universal": "0.1.5"
+    "slacc-win32-x64-msvc": "0.2.0",
+    "slacc-darwin-x64": "0.2.0",
+    "slacc-linux-x64-gnu": "0.2.0",
+    "slacc-linux-x64-musl": "0.2.0",
+    "slacc-freebsd-x64": "0.2.0",
+    "slacc-darwin-arm64": "0.2.0",
+    "slacc-android-arm64": "0.2.0",
+    "slacc-linux-arm64-gnu": "0.2.0",
+    "slacc-linux-arm64-musl": "0.2.0",
+    "slacc-win32-arm64-msvc": "0.2.0",
+    "slacc-linux-arm-gnueabihf": "0.2.0",
+    "slacc-android-arm-eabi": "0.2.0",
+    "slacc-darwin-universal": "0.2.0"
   }
 }

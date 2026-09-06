@@ -9,7 +9,6 @@ extern crate napi_derive;
 
 pub mod aho_corasick;
 pub mod aws_lc_rs;
-pub mod zip;
 
 pub(crate) static THREAD_POOL: OnceLock<ThreadPool> = OnceLock::new();
 

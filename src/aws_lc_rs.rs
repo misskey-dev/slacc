@@ -1,5 +1,5 @@
 use aws_lc_rs::signature;
-use aws_lc_rs::unstable::signature::{PqdsaKeyPair, ML_DSA_44, ML_DSA_44_SIGNING};
+use aws_lc_rs::signature::{PqdsaKeyPair, ML_DSA_44, ML_DSA_44_SIGNING};
 use napi::bindgen_prelude::*;
 use napi::threadsafe_function::{ThreadsafeFunction, ThreadsafeFunctionCallMode};
 use napi_derive::napi;

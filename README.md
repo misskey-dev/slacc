@@ -10,5 +10,3 @@ An internal library for Misskey backend used to obtain performance benefits.
 - aws-lc-sys
   - `Signer` (requires init before use)
   - `Verifier` (requires init before use)
-- zip
-  - `ZipReader`

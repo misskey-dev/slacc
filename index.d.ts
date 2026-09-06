@@ -23,12 +23,6 @@ export declare class Verifier {
 }
 export type JsVerifier = Verifier
 
-export declare class ZipReader {
-  static withDestinationPath(path: string): ZipReader
-  viaBuffer(buffer: Buffer): void
-}
-export type JsZipReader = ZipReader
-
 export declare function init(numThreads: number): void
 
 export declare const enum SignatureAlgorithmIdentifier {

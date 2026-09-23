@@ -15,8 +15,8 @@ aws-lc-rs = { version = "1.18.1", default-features = false, features = [
   "ring-io",
   "ring-sig-verify",
 ] }
-napi = { version = "3.12.2", default-features = false, features = ["napi10"] }
-napi-derive = "3.6.3"
+napi = { version = "3.13.0", default-features = false, features = ["napi10"] }
+napi-derive = "3.6.9"
 pkcs8 = { version = "0.11.0", default-features = false, features = [
   "alloc",
   "pem",
@@ -32,7 +32,7 @@ spki = { version = "0.8.0", default-features = false, features = [
 ] }
 
 [build-dependencies]
-napi-build = "2.4.1"
+napi-build = "2.5.0"
 
 [profile.release]
 lto = true

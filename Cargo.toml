@@ -30,7 +30,6 @@ spki = { version = "0.8.0", default-features = false, features = [
   "pem",
   "std",
 ] }
-zip = "8.6.0"
 
 [build-dependencies]
 napi-build = "2.4.1"

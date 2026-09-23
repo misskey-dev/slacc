@@ -582,7 +582,5 @@ module.exports.Signer = nativeBinding.Signer
 module.exports.JsSigner = nativeBinding.JsSigner
 module.exports.Verifier = nativeBinding.Verifier
 module.exports.JsVerifier = nativeBinding.JsVerifier
-module.exports.ZipReader = nativeBinding.ZipReader
-module.exports.JsZipReader = nativeBinding.JsZipReader
 module.exports.init = nativeBinding.init
 module.exports.SignatureAlgorithmIdentifier = nativeBinding.SignatureAlgorithmIdentifier

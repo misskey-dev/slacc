@@ -74,7 +74,7 @@ jobs:
             vm: "freebsd"
             vm-version: "14.2"
             build: |
-              sudo pkg install -y rust node npm
+              sudo pkg install -y node npm python3 rust
               sudo corepack enable
               pnpm install --no-frozen-lockfile
               pnpm build --target x86_64-unknown-freebsd

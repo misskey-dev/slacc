@@ -1,7 +1,7 @@
 [package]
-edition = "2021"
+edition = "2024"
 name = "slacc"
-version = "0.2.0"
+version = "0.3.0"
 
 [lib]
 crate-type = ["cdylib"]
@@ -30,7 +30,6 @@ spki = { version = "0.8.0", default-features = false, features = [
   "pem",
   "std",
 ] }
-zip = "8.6.0"
 
 [build-dependencies]
 napi-build = "2.5.0"
